@@ -12,6 +12,20 @@ So far, we have these as listed:
 * Gitlab Pipeline
 * 100% Test Coverage
 
+## Services
+
+### Kafka
+
+````/kafka````: show available services to see Kafka working
+
+### RabbitMQ
+
+````/rabbitmq````: show available services to see RabbitMQ working
+
+### Spring WebFlux
+
+````/webflux````: show available services to see Spring WebFlux working
+
 
 ## Main References
 
