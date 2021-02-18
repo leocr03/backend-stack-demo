@@ -13,17 +13,20 @@ So far, we have these items:
 
 
 ## Services
-
 In order to run the tests easier, GET endpoints were created to produce a value.
 
 ### Kafka
-
-[GET] ````/kafka/produce/{value}````: produce value to Kafka (e.g: /kafka/produce/5)
+[GET] ````/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/produce/5)
 
 ### RabbitMQ
-
-[GET] ````/rabbitmq/produce/{value}````: produce value to RabbitMQ (e.g: /rabbitmq/produce/4)
+[GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/produce/4)
 
 ### Spring WebFlux
-
 [GET] ````/webflux````: show available services to see Spring WebFlux working
+
+
+## How to Start
+```
+    cd src/main/resources/kafka
+    docker-compose -f docker-compose.yaml up --build
+```
