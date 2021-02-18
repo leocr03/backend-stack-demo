@@ -16,10 +16,10 @@ So far, we have these items:
 In order to run the tests easier, GET endpoints were created to produce a value.
 
 ### Kafka
-[GET] ````/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/produce/5)
+[GET] ````/kafka/{someNumber}````: produce a number value to Kafka (e.g: /kafka/5)
 
 ### RabbitMQ
-[GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/produce/4)
+[GET] ````/rabbitmq/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
 
 ### Spring WebFlux
 [GET] ````/webflux````: show available services to see Spring WebFlux working
