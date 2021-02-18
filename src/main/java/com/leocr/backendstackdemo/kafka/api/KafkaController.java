@@ -13,9 +13,4 @@ public class KafkaController {
     public ResponseEntity<String> kafkaProduce(@PathVariable int someNumber) {
         return new ResponseEntity<>(String.valueOf(someNumber), HttpStatus.OK);
     }
-
-    @GetMapping(value = "/kafka/consume/{someNumber}", produces = "application/json")
-    public ResponseEntity<String> kafkaConsume(@PathVariable int someNumber) {
-        return new ResponseEntity<>(String.valueOf(someNumber), HttpStatus.OK);
-    }
 }

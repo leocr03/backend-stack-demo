@@ -38,8 +38,8 @@ services:
   backend-stack-demo:
     container_name: backend-stack-demo
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../../../..
+      dockerfile: ../../../../Dockerfile
     image: backend-stack-demo:latest
     ports:
       - 8080:8080

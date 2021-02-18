@@ -22,11 +22,4 @@ class KafkaControllerTest {
         final ResponseEntity<String> result = controller.kafkaProduce(someNumber);
         assertEquals(new ResponseEntity<>(String.valueOf(someNumber), HttpStatus.OK), result);
     }
-
-    @Test
-    void kafkaConsume() {
-        final int someNumber = 5;
-        final ResponseEntity<String> result = controller.kafkaProduce(someNumber);
-        assertEquals(new ResponseEntity<>(String.valueOf(someNumber), HttpStatus.OK), result);
-    }
 }
