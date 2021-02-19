@@ -24,6 +24,11 @@ services:
       file: ./common-services.yaml
       service: redis
 
+  rabbit:
+    extends:
+      file: ./common-services.yaml
+      service: rabbit
+
   backend-stack-demo:
     extends:
       file: ./common-services.yaml
@@ -31,6 +36,7 @@ services:
     depends_on:
       - kafka
       - redis
+      - rabbit
 
 networks:
   backend-stack-demo-network:

@@ -18,7 +18,7 @@ public class KafkaController {
 
     @GetMapping(value = "/kafka/produce/{someNumber}", produces = "application/json")
     public void produce(@PathVariable Integer someNumber) {
-        kafkaService.produce(someNumber).addCallback(result -> System.out.println("test"), ex -> {});
+        kafkaService.produce(someNumber);
     }
 
     @GetMapping(value = "/kafka/list", produces = "application/json")

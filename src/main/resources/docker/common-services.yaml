@@ -41,6 +41,15 @@ services:
     networks:
       - backend-stack-demo-network
 
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - backend-stack-demo-network
+
   backend-stack-demo:
     build:
       context: ../../../..
@@ -48,6 +57,7 @@ services:
     image: leocr/backend-stack-demo:latest
     environment:
       - KAFKA_TOPIC_FIRST_BOOTSTRAP_ADDRESS=kafka:9092
+      - RABBIT_HOST=rabbit
     ports:
       - 8080:8080
     volumes:
