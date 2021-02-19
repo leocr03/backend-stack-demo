@@ -1,0 +1,41 @@
+version: '2'
+services:
+  zookeeper:
+    extends:
+      file: ./common-services.yaml
+      service: zookeeper
+
+  kafka:
+    extends:
+      file: ./common-services.yaml
+      service: kafka
+    depends_on:
+      - zookeeper
+
+  kafdrop:
+    extends:
+      file: ./common-services.yaml
+      service: kafdrop
+    depends_on:
+      - kafka
+
+  redis:
+    extends:
+      file: ./common-services.yaml
+      service: redis
+
+  backend-stack-demo:
+    extends:
+      file: ./common-services.yaml
+      service: backend-stack-demo
+    depends_on:
+      - kafka
+      - redis
+
+networks:
+  backend-stack-demo-network:
+    driver: bridge
+
+volumes:
+  backend-stack-demo-volume:
+    external: false

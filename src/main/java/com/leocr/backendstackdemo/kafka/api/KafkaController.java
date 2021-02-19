@@ -16,10 +16,13 @@ public class KafkaController {
         this.kafkaService = kafkaService;
     }
 
-    @GetMapping(value = "/kafka/{someNumber}", produces = "application/json")
-    public void kafkaProduce(@PathVariable Integer someNumber) {
-        kafkaService.produce(someNumber).addCallback(result -> {
-            System.out.println("test");
-        }, ex -> {});
+    @GetMapping(value = "/kafka/produce/{someNumber}", produces = "application/json")
+    public void produce(@PathVariable Integer someNumber) {
+        kafkaService.produce(someNumber).addCallback(result -> System.out.println("test"), ex -> {});
+    }
+
+    @GetMapping(value = "/kafka/list", produces = "application/json")
+    public String list() {
+        return kafkaService.list();
     }
 }

@@ -15,23 +15,23 @@ import java.util.Map;
 public class KafkaTopicConfig {
 
     @Getter
-    @Value(value = "${kafka.topicFirst.bootstrapAddress:localhost:9092}")
+    @Value(value = "${kafka.topic.first.bootstrap.address:localhost:9092}")
     private String bootstrapAddress;
 
     @Getter
-    @Value(value = "${kafka.topicFirst.topicName:topicFirst}")
+    @Value(value = "${kafka.topic.first.topic.name:topicFirst}")
     private String topicName;
 
     @Getter
-    @Value(value = "${kafka.topicFirst.groupId.first:groupFirst}")
+    @Value(value = "${kafka.topic.first.group.id.first:groupFirst}")
     private String groupId;
 
     @Getter
-    @Value(value = "${kafka.topicFirst.numPartitions:1}")
+    @Value(value = "${kafka.topic.first.num.partitions:1}")
     private Integer numPartitions;
 
     @Getter
-    @Value(value = "${kafka.topicFirst.replicationFactor:1}")
+    @Value(value = "${kafka.topic.first.replication.factor:1}")
     private Integer replicationFactor;
 
     @Bean
