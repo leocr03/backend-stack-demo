@@ -12,14 +12,16 @@ So far, we have these items:
 * Gitlab Pipeline
 
 
-## Services
+## How to Use
 In order to run the tests easier, GET endpoints were created to produce a value.
 
 ### Kafka
-[GET] ````/kafka/{someNumber}````: produce a number value to Kafka (e.g: /kafka/5)
+[GET] ````/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/5)
+
+[GET] ````/kafka/list````: list messages
 
 ### RabbitMQ
-[GET] ````/rabbitmq/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
+[GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
 
 ### Spring WebFlux
 [GET] ````/webflux````: show available services to see Spring WebFlux working

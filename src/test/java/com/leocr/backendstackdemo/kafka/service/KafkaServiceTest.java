@@ -1,19 +1,18 @@
 package com.leocr.backendstackdemo.kafka.service;
 
 import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
+import com.leocr.backendstackdemo.redis.model.Message;
+import com.leocr.backendstackdemo.redis.repo.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,18 +30,20 @@ class KafkaServiceTest {
     @Mock
     private KafkaTopicConfig kafkaTopicConfig;
 
+    @Mock
+    private MessageRepository messageRepository;
+
     @BeforeEach
     void setUp() {
-        service = new KafkaService(kafkaTemplate, kafkaTopicConfig);
+        service = new KafkaService(kafkaTemplate, kafkaTopicConfig, messageRepository);
     }
 
     @Test
-    void produce() throws ExecutionException, InterruptedException {
+    void produce() {
         final Integer value = 5;
         when(kafkaTopicConfig.getTopicName()).thenReturn("first");
-        //noinspection rawtypes
-        final ListenableFuture listener = mock(ListenableFuture.class);
-        //noinspection unchecked
+        @SuppressWarnings("unchecked") final ListenableFuture<SendResult<String, String>> listener =
+                mock(ListenableFuture.class);
         when(kafkaTemplate.send(anyString(), anyString())).thenReturn(listener);
 
         final ListenableFuture<SendResult<String, String>> result = service.produce(value);
@@ -53,12 +54,30 @@ class KafkaServiceTest {
 
     @Test
     void consume() {
-        final String message = "some Message";
+        final String message = "23";
 
         final String result = service.consume(message);
 
-        assertEquals("some Message", result);
+        assertEquals("23", result);
         verify(kafkaTopicConfig).getTopicName();
         verify(kafkaTopicConfig).getGroupId();
+        verify(messageRepository).save(any(Message.class));
+    }
+
+    @Test
+    void list() {
+        final String value = "1, 2, 3, 4, 5";
+        when(messageRepository.findAll()).thenReturn(new ArrayList<>() {{
+            add(new Message(1));
+            add(new Message(2));
+            add(new Message(3));
+            add(new Message(4));
+            add(new Message(5));
+        }});
+
+        final String result = service.list();
+
+        assertEquals("1, 2, 3, 4, 5", result);
+        verify(messageRepository).findAll();
     }
 }
