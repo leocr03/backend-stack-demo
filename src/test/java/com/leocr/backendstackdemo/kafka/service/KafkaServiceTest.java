@@ -61,7 +61,7 @@ class KafkaServiceTest {
 
     @Test
     void list() {
-        when(messageRepository.findAll()).thenReturn(new ArrayList<>() {{
+        when(messageRepository.findAll()).thenReturn(new ArrayList<Message>() {{
             add(new Message(1));
             add(new Message(2));
             add(new Message(3));

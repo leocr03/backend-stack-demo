@@ -2,6 +2,7 @@ package com.leocr.backendstackdemo.rabbit.conf;
 
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -24,6 +25,7 @@ public class RabbitConfig {
     private String host;
 
     @Getter
+    @Setter
     @Value(value = "${rabbit.port:5672}")
     private Integer port;
 
@@ -36,6 +38,7 @@ public class RabbitConfig {
     private String password;
 
     @Getter
+    @Setter
     @Value(value = "${rabbit.queue:someQueue}")
     private String queue;
 
