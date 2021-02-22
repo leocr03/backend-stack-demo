@@ -27,9 +27,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'junit:junit:4.12'
 	implementation 'org.jetbrains:annotations:20.1.0'
-	implementation 'org.jetbrains:annotations:20.1.0'
-	implementation 'org.jetbrains:annotations:20.1.0'
-	implementation 'org.jetbrains:annotations:20.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -38,7 +35,6 @@ dependencies {
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	implementation group: 'redis.clients', name: 'jedis', version: '3.5.1'
-
 }
 
 test {
