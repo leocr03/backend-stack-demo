@@ -6,9 +6,7 @@ import com.leocr.backendstackdemo.redis.repo.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Comparator;
 import java.util.Spliterator;
@@ -23,7 +21,7 @@ public class KafkaService {
 
     private final KafkaTopicConfig kafkaTopicConfig;
 
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
 
     @Autowired
     public KafkaService(KafkaTemplate<String, String> kafkaTemplate, KafkaTopicConfig kafkaTopicConfig,
@@ -33,19 +31,19 @@ public class KafkaService {
         this.messageRepository = messageRepository;
     }
 
-    public ListenableFuture<SendResult<String, String>> produce(Integer value) {
+    public void produce(Integer value) {
         final String topicName = kafkaTopicConfig.getTopicName();
-        return kafkaTemplate.send(topicName, String.valueOf(value));
+        kafkaTemplate.send(topicName, String.valueOf(value));
     }
 
     @KafkaListener(topics = "#{kafkaTopicConfig.getTopicName()}", groupId = "#{kafkaTopicConfig.getGroupId()}")
     public String consume(String message) {
-        System.out.printf("[%s][%s] Received Message: " + message + "%n",  kafkaTopicConfig.getGroupId(),
+        System.out.printf("[Kafka][%s][%s] Received Message: " + message + "%n",  kafkaTopicConfig.getGroupId(),
                 kafkaTopicConfig.getTopicName());
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
         messageRepository.save(msg);
-        System.out.println("Message saved on Redis: " + message);
+        System.out.println("[Kafka] Message saved on Redis: " + message);
         return message;
     }
 

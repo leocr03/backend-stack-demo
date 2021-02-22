@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import lombok.Data;
 import lombok.Getter;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -11,6 +12,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
+@Data
 @Configuration
 public class KafkaTopicConfig {
 

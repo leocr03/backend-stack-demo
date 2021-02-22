@@ -9,15 +9,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class KafkaServiceTest {
@@ -42,13 +41,9 @@ class KafkaServiceTest {
     void produce() {
         final Integer value = 5;
         when(kafkaTopicConfig.getTopicName()).thenReturn("first");
-        @SuppressWarnings("unchecked") final ListenableFuture<SendResult<String, String>> listener =
-                mock(ListenableFuture.class);
-        when(kafkaTemplate.send(anyString(), anyString())).thenReturn(listener);
 
-        final ListenableFuture<SendResult<String, String>> result = service.produce(value);
+        service.produce(value);
 
-        assertNotNull(result);
         verify(kafkaTemplate).send(eq("first"), eq("5"));
     }
 
@@ -66,8 +61,7 @@ class KafkaServiceTest {
 
     @Test
     void list() {
-        final String value = "1, 2, 3, 4, 5";
-        when(messageRepository.findAll()).thenReturn(new ArrayList<>() {{
+        when(messageRepository.findAll()).thenReturn(new ArrayList<Message>() {{
             add(new Message(1));
             add(new Message(2));
             add(new Message(3));

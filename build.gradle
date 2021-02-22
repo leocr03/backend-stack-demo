@@ -6,7 +6,6 @@ plugins {
 
 group = 'com.leocr'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
 
 configurations {
 	compileOnly {
@@ -16,6 +15,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
@@ -26,7 +26,11 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'junit:junit:4.12'
-    compileOnly 'org.projectlombok:lombok'
+	implementation 'org.jetbrains:annotations:20.1.0'
+	implementation 'org.jetbrains:annotations:20.1.0'
+	implementation 'org.jetbrains:annotations:20.1.0'
+	implementation 'org.jetbrains:annotations:20.1.0'
+	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -34,8 +38,11 @@ dependencies {
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	implementation group: 'redis.clients', name: 'jedis', version: '3.5.1'
+
 }
 
 test {
 	useJUnitPlatform()
 }
+
+
