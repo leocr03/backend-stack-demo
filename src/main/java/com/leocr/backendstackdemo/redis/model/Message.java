@@ -32,7 +32,7 @@ public class Message implements Serializable {
 
     public Message(Integer value) {
         this.value = value;
-        Date in = new Date();
+        final Date in = new Date();
         this.createdAt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
     }
 
@@ -40,7 +40,7 @@ public class Message implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
+        final Message message = (Message) o;
         return Objects.equals(value, message.value);
     }
 
