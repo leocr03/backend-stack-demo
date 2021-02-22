@@ -21,7 +21,7 @@ public class KafkaService {
 
     private final KafkaTopicConfig kafkaTopicConfig;
 
-    private final MessageRepository messageRepository;
+    protected final MessageRepository messageRepository;
 
     @Autowired
     public KafkaService(KafkaTemplate<String, String> kafkaTemplate, KafkaTopicConfig kafkaTopicConfig,
