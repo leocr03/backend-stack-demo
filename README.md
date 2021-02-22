@@ -10,12 +10,14 @@ So far, we have these items:
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
     * *KafkaDrop* in order to see the message queue
+    * Note: message persistence in Redis is shared with RabbitMQ
 * *RabbitMQ (RabbitMQ + RabbitMQ Management)*
     * It has been created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
     * *RabbitMQ Management* in order to see the message queue
+  * Note: message persistence in Redis is shared with Kafka
 * *Spring WebFlux*
     * Just reusing some code and adapting to work with ```Mono``` and ```Flux```
     * Common reactive programming functions (map, filter, etc.) is out of scope.
@@ -33,9 +35,11 @@ To run the stack:
 
 ### Test Kafka
 
-[GET] ````/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/5)
+[GET] [http://localhost:8080/kafka/produce/5](http://localhost:8080/kafka/produce/5): produce a number value to Kafka
 
-[GET] ````/kafka/list````: list messages
+[GET] [http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
+
+[GET] [http://localhost:19000](http://localhost:19000): access KafkaDrop
 
 ![kafka-1](https://i.imgur.com/HZ96xjz.png)
 
@@ -45,7 +49,12 @@ To run the stack:
 
 
 ### Test RabbitMQ
-[GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
+
+[GET] [http://localhost:8080/rabbit/produce/{someNumber}](http://localhost:8080/rabbit/produce/{someNumber}): produce a number value to RabbitMQ (e.g: /rabbit/produce/5)
+
+[GET] [http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
+
+[GET] [http://localhost:15672](http://localhost:15672): access RabbitMQ Management
 
 ![rabbit-1](https://i.imgur.com/DUiDSlo.png)
 
@@ -54,13 +63,7 @@ To run the stack:
 
 ### To test Spring WebFlux
 
-[GET] ````/reactive/kafka/list````: show available services to see Spring WebFlux working
+[GET] [http://localhost:8080/reactive/kafka/list](http://localhost:8080/reactive/kafka/list): endpoint that reuses Kafka list service using ```Mono``` 
 
-[GET] ````/reactive/rabbit/list````: show available services to see Spring WebFlux working
+[GET] [http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Kafka list service using ```Flux``
 
-
-## How to Start
-```
-    cd src/main/resources/kafka
-    docker-compose -f docker-compose.yaml up --build
-```
