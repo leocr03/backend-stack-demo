@@ -40,6 +40,10 @@ In order to run the tests easier, GET endpoints were created to produce a value.
 [GET] ````/reactive/rabbit/list````: show available services to see Spring WebFlux working
 
 
+### GitLab Pipeline
+To integrate GitLab with GitHub: https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html
+
+
 ## How to Start
 ```
     cd src/main/resources/kafka
