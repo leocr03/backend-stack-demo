@@ -20,8 +20,20 @@ In order to run the tests easier, GET endpoints were created to produce a value.
 
 [GET] ````/kafka/list````: list messages
 
+[kafka-1](https://imgur.com/a/FZg6jwk?raw=true)
+
+[kafka-2](https://imgur.com/9z5fAeX)
+
+[kafka-3](https://imgur.com/H7FDYsB)
+
+
 ### RabbitMQ
 [GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
+
+[rabbit-1](https://imgur.com/DUiDSlo)
+
+[rabbit-2](https://imgur.com/UVqPOWX)
+
 
 ### Spring WebFlux
 [GET] ````/webflux````: show available services to see Spring WebFlux working
