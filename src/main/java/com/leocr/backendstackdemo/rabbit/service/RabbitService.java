@@ -51,7 +51,7 @@ public class RabbitService {
     }
 
     public String list() {
-        Iterable<Message> iterable = messageRepository.findAll();
+        final Iterable<Message> iterable = messageRepository.findAll();
         return StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(iterable.iterator(), Spliterator.NONNULL), false)
                 .sorted(Comparator.comparing(Message::getCreatedAt))

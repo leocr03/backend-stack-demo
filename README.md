@@ -1,21 +1,38 @@
 # Backend Stack Demo
 
-This project provides samples of using of the main modern Java technology stack required for backend engineers. 
-
-The idea is to keep it simple as much as possible.
+This project provides samples of using of the main Java technology stack required for backend engineers nowadays.
 
 So far, we have these items:
 
-* Kafka (Kafka + ZooKeeper + KafkaDrop)
-* RabbitMQ
-* Spring WebFlux
-* Gitlab Pipeline
-
+* *Kafka (Kafka + ZooKeeper + KafkaDrop)*
+    * It has been created:
+        * an endpoint to produce some value
+        * a simple persistence in *Redis* to save the consumed values
+        * an endpoint to list those values that were consumed and persisted
+    * *KafkaDrop* in order to see the message queue
+* *RabbitMQ (RabbitMQ + RabbitMQ Management)*
+    * It has been created:
+        * an endpoint to produce some value
+        * a simple persistence in *Redis* to save the consumed values
+        * an endpoint to list those values that were consumed and persisted
+    * *RabbitMQ Management* in order to see the message queue
+* *Spring WebFlux*
+    * Just reusing some code and adapting to work with ```Mono``` and ```Flux```
+    * Common reactive programming functions (map, filter, etc.) is out of scope.
 
 ## How to Use
-In order to run the tests easier, GET endpoints were created to produce a value.
+In order to run the tests easily, GET endpoints were created to produce a value.
 
-### Kafka
+### Start Stack
+
+To run the stack:
+
+* Enter the folder: ```src/main/resources/docker```
+
+* Run docker-compose to start: ```docker-compose -f docker-compose.yaml up --build```
+
+### Test Kafka
+
 [GET] ````/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/5)
 
 [GET] ````/kafka/list````: list messages
@@ -27,7 +44,7 @@ In order to run the tests easier, GET endpoints were created to produce a value.
 ![kafka-3](https://i.imgur.com/H7FDYsB.png)
 
 
-### RabbitMQ
+### Test RabbitMQ
 [GET] ````/rabbitmq/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbitmq/4)
 
 ![rabbit-1](https://i.imgur.com/DUiDSlo.png)
@@ -35,13 +52,11 @@ In order to run the tests easier, GET endpoints were created to produce a value.
 ![rabbit-2](https://i.imgur.com/UVqPOWX.png)
 
 
-### Spring WebFlux
+### To test Spring WebFlux
+
 [GET] ````/reactive/kafka/list````: show available services to see Spring WebFlux working
+
 [GET] ````/reactive/rabbit/list````: show available services to see Spring WebFlux working
-
-
-### GitLab Pipeline
-To integrate GitLab with GitHub: https://docs.gitlab.com/ee/ci/ci_cd_for_external_repos/github_integration.html
 
 
 ## How to Start
