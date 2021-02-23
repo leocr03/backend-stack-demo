@@ -67,3 +67,4 @@ To run the stack:
 
 [GET] [http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Kafka list service using ```Flux``
 
+
