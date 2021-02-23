@@ -42,7 +42,13 @@ To run the stack:
 
 ### Test Kafka
 
-[GET] [http://localhost:8080/kafka/produce/5](http://localhost:8080/kafka/produce/5): produce a number value to Kafka
+To produce some values to Kafka:
+
+* [GET] [http://localhost:8080/kafka/produce/1](http://localhost:8080/kafka/produce/1)
+
+* [GET] [http://localhost:8080/kafka/produce/2](http://localhost:8080/kafka/produce/2)
+
+* [GET] [http://localhost:8080/kafka/produce/3](http://localhost:8080/kafka/produce/3)
 
 [GET] [http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
 
@@ -57,7 +63,13 @@ To run the stack:
 
 ### Test RabbitMQ
 
-[GET] [http://localhost:8080/rabbit/produce/5](http://localhost:8080/rabbit/produce/5): produce a number value to RabbitMQ
+To produce some values to RabbitMQ:
+
+* [GET] [http://localhost:8080/rabbit/produce/10](http://localhost:8080/rabbit/produce/10)
+
+* [GET] [http://localhost:8080/rabbit/produce/11](http://localhost:8080/rabbit/produce/11)
+
+* [GET] [http://localhost:8080/rabbit/produce/12](http://localhost:8080/rabbit/produce/12)
 
 [GET] [http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
 
