@@ -44,15 +44,15 @@ To run the stack:
 
 To produce some values to Kafka:
 
-* [GET] [http://localhost:8080/kafka/produce/1](http://localhost:8080/kafka/produce/1)
+* [http://localhost:8080/kafka/produce/1](http://localhost:8080/kafka/produce/1)
 
-* [GET] [http://localhost:8080/kafka/produce/2](http://localhost:8080/kafka/produce/2)
+* [http://localhost:8080/kafka/produce/2](http://localhost:8080/kafka/produce/2)
 
-* [GET] [http://localhost:8080/kafka/produce/3](http://localhost:8080/kafka/produce/3)
+* [http://localhost:8080/kafka/produce/3](http://localhost:8080/kafka/produce/3)
 
-[GET] [http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
+[http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
 
-[GET] [http://localhost:19000](http://localhost:19000): access KafkaDrop
+[http://localhost:19000](http://localhost:19000): access KafkaDrop
 
 ![kafka-1](https://i.imgur.com/HZ96xjz.png)
 
@@ -65,15 +65,15 @@ To produce some values to Kafka:
 
 To produce some values to RabbitMQ:
 
-* [GET] [http://localhost:8080/rabbit/produce/10](http://localhost:8080/rabbit/produce/10)
+* [http://localhost:8080/rabbit/produce/10](http://localhost:8080/rabbit/produce/10)
 
-* [GET] [http://localhost:8080/rabbit/produce/11](http://localhost:8080/rabbit/produce/11)
+* [http://localhost:8080/rabbit/produce/11](http://localhost:8080/rabbit/produce/11)
 
-* [GET] [http://localhost:8080/rabbit/produce/12](http://localhost:8080/rabbit/produce/12)
+* [http://localhost:8080/rabbit/produce/12](http://localhost:8080/rabbit/produce/12)
 
-[GET] [http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
+[http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
 
-[GET] [http://localhost:15672](http://localhost:15672): access RabbitMQ Management
+[http://localhost:15672](http://localhost:15672): access RabbitMQ Management (guest / guest)
 
 ![rabbit-1](https://i.imgur.com/DUiDSlo.png)
 
@@ -82,8 +82,8 @@ To produce some values to RabbitMQ:
 
 ### To test Spring WebFlux
 
-[GET] [http://localhost:8080/reactive/kafka/list](http://localhost:8080/reactive/kafka/list): endpoint that reuses Kafka list service using ```Mono``` 
+[http://localhost:8080/reactive/kafka/list](http://localhost:8080/reactive/kafka/list): endpoint that reuses Kafka list service using ```Mono``` 
 
-[GET] [http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Kafka list service using ```Flux```
+[http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Kafka list service using ```Flux```
 
 
