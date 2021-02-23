@@ -27,6 +27,13 @@ In order to run the tests easily, GET endpoints were created to produce a value.
 
 ### Start Stack
 
+To compile the project:
+
+* ```gradle clean build```
+
+    * ```-x test``` to build without test (faster)
+
+
 To run the stack:
 
 * Enter the folder: ```src/main/resources/docker```
