@@ -35,11 +35,11 @@ To run the stack:
 
 ### Test Kafka
 
-[GET] ````http://localhost:8080/kafka/produce/{someNumber}````: produce a number value to Kafka (e.g: /kafka/produce/5)
+[GET] [http://localhost:8080/kafka/produce/5](http://localhost:8080/kafka/produce/5): produce a number value to Kafka
 
-[GET] ````http://localhost:8080/kafka/list````: list messages that were produced and consumed by Kafka
+[GET] [http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
 
-[GET] ````http://localhost:19000````: access KafkaDrop
+[GET] [http://localhost:19000](http://localhost:19000): access KafkaDrop
 
 ![kafka-1](https://i.imgur.com/HZ96xjz.png)
 
@@ -50,11 +50,11 @@ To run the stack:
 
 ### Test RabbitMQ
 
-[GET] ````http://localhost:8080/rabbit/produce/{someNumber}````: produce a number value to RabbitMQ (e.g: /rabbit/produce/5)
+[GET] [http://localhost:8080/rabbit/produce/{someNumber}](http://localhost:8080/rabbit/produce/{someNumber}): produce a number value to RabbitMQ (e.g: /rabbit/produce/5)
 
-[GET] ````http://localhost:8080/rabbit/list````: list messages that were produced and consumed by RabbitMQ
+[GET] [http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
 
-[GET] ````http://localhost:15672````: access RabbitMQ Management
+[GET] [http://localhost:15672](http://localhost:15672): access RabbitMQ Management
 
 ![rabbit-1](https://i.imgur.com/DUiDSlo.png)
 
@@ -63,7 +63,8 @@ To run the stack:
 
 ### To test Spring WebFlux
 
-[GET] ````/reactive/kafka/list````: endpoint that reuses Kafka list service using ```Mono``` 
+[GET] [http://localhost:8080/reactive/kafka/list](http://localhost:8080/reactive/kafka/list): endpoint that reuses Kafka list service using ```Mono``` 
 
-[GET] ````/reactive/rabbit/list````: endpoint that reuses Kafka list service using ```Flux``
+[GET] [http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Kafka list service using ```Flux``
+
 
