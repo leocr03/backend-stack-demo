@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   zookeeper:
     extends:
@@ -29,6 +29,11 @@ services:
       file: ./common-services.yaml
       service: rabbit
 
+  mongo:
+    extends:
+      file: ./common-services.yaml
+      service: mongo
+
   backend-stack-demo:
     extends:
       file: ./common-services.yaml
@@ -37,6 +42,7 @@ services:
       - kafka
       - redis
       - rabbit
+      - mongo
 
 networks:
   backend-stack-demo-network:

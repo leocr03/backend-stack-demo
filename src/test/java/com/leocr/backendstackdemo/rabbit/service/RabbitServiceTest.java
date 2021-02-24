@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.rabbit.service;
 
 import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
-import com.leocr.backendstackdemo.redis.model.Message;
-import com.leocr.backendstackdemo.redis.repo.MessageRepository;
+import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,11 +31,11 @@ class RabbitServiceTest {
     private RabbitConfig rabbitConfig;
 
     @Mock
-    private MessageRepository messageRepository;
+    private MongoMessageRepository mongoMessageRepository;
 
     @BeforeEach
     void setUp() {
-        service = new RabbitService(rabbitTemplate, rabbitConfig, messageRepository);
+        service = new RabbitService(rabbitTemplate, rabbitConfig, mongoMessageRepository);
     }
 
     @Test
@@ -52,18 +53,18 @@ class RabbitServiceTest {
     void consume() {
         final String message = "1";
         service.consume(message);
-        verify(messageRepository).save(any(Message.class));
+        verify(mongoMessageRepository).save(any(Message.class));
     }
 
     @Test
     void list() {
-        final Iterable<Message> values = Arrays.asList(new Message(1), new Message(2), new Message(3), new Message(4),
+        final List<Message> values = Arrays.asList(new Message(1), new Message(2), new Message(3), new Message(4),
                 new Message(5));
-        when(messageRepository.findAll()).thenReturn(values);
+        when(mongoMessageRepository.findAll()).thenReturn(values);
 
         final String result = service.list();
 
-        verify(messageRepository).findAll();
+        verify(mongoMessageRepository).findAll();
         assertEquals("1, 2, 3, 4, 5", result);
     }
 }

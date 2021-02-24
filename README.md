@@ -19,6 +19,10 @@ So far, we have these items:
 * *Spring WebFlux*
     * Just reusing some code and adapting to work with ```Mono``` and ```Flux```
     * Common reactive programming functions (map, filter, etc.) is out of scope.
+* Redis
+    * It's being used to save data consumed by Kafka
+* MongoDB
+    * It's being used to save data consumed by RabbitMQ
 
 ## How to Use
 In order to run the tests easily, GET endpoints were created to produce a value.
@@ -48,7 +52,7 @@ To produce some values to Kafka, for instance:
 
 * [http://localhost:8080/kafka/produce/3](http://localhost:8080/kafka/produce/3)
 
-[http://localhost:8080/list](http://localhost:8080/list): list messages that were produced and consumed by Kafka or RabbitMQ
+[http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
 
 [http://localhost:19000](http://localhost:19000): access KafkaDrop
 
@@ -69,7 +73,7 @@ To produce some values to RabbitMQ, for instance:
 
 * [http://localhost:8080/rabbit/produce/12](http://localhost:8080/rabbit/produce/12)
 
-[http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ or Kafka
+[http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
 
 [http://localhost:15672](http://localhost:15672): access RabbitMQ Management (guest / guest)
 

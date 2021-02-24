@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -11,7 +11,6 @@ services:
   redis:
     hostname: redis
     image: redis
-    container_name: cache
     expose:
       - 6379
     networks:
@@ -47,8 +46,24 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      interval: 30s
+      timeout: 30s
+      retries: 3
     networks:
       - backend-stack-demo-network
+
+  mongo:
+      image: mongo
+      hostname: mongo
+      environment:
+        - MONGO_INITDB_DATABASE=rabbit-messages
+      volumes:
+        - ./mongo-volume:/tmp/mongo-volume
+      ports:
+        - "27017:27017"
+      networks:
+        - backend-stack-demo-network
 
   backend-stack-demo:
     build:

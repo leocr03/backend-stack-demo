@@ -1,4 +1,4 @@
-package com.leocr.backendstackdemo.redis.model;
+package com.leocr.backendstackdemo.common.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

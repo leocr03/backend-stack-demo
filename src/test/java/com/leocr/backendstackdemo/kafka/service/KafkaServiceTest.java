@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.kafka.service;
 
 import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
-import com.leocr.backendstackdemo.redis.model.Message;
-import com.leocr.backendstackdemo.redis.repo.MessageRepository;
+import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,11 +30,11 @@ class KafkaServiceTest {
     private KafkaTopicConfig kafkaTopicConfig;
 
     @Mock
-    private MessageRepository messageRepository;
+    private RedisMessageRepository redisMessageRepository;
 
     @BeforeEach
     void setUp() {
-        service = new KafkaService(kafkaTemplate, kafkaTopicConfig, messageRepository);
+        service = new KafkaService(kafkaTemplate, kafkaTopicConfig, redisMessageRepository);
     }
 
     @Test
@@ -56,12 +56,12 @@ class KafkaServiceTest {
         assertEquals("23", result);
         verify(kafkaTopicConfig).getTopicName();
         verify(kafkaTopicConfig).getGroupId();
-        verify(messageRepository).save(any(Message.class));
+        verify(redisMessageRepository).save(any(Message.class));
     }
 
     @Test
     void list() {
-        when(messageRepository.findAll()).thenReturn(new ArrayList<Message>() {{
+        when(redisMessageRepository.findAll()).thenReturn(new ArrayList<Message>() {{
             add(new Message(1));
             add(new Message(2));
             add(new Message(3));
@@ -72,6 +72,6 @@ class KafkaServiceTest {
         final String result = service.list();
 
         assertEquals("1, 2, 3, 4, 5", result);
-        verify(messageRepository).findAll();
+        verify(redisMessageRepository).findAll();
     }
 }
