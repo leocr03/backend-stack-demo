@@ -1,4 +1,4 @@
-package com.leocr.backendstackdemo.redis.model;
+package com.leocr.backendstackdemo.common.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

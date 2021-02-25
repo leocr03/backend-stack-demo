@@ -1,42 +1,100 @@
-version: '2'
+version: '3.8'
 services:
   zookeeper:
-    extends:
-      file: ./common-services.yaml
-      service: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - backend-stack-demo-network
 
   kafka:
-    extends:
-      file: ./common-services.yaml
-      service: kafka
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka
+    ports:
+      - 9092:9092
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    networks:
+      - backend-stack-demo-network
     depends_on:
       - zookeeper
 
   kafdrop:
-    extends:
-      file: ./common-services.yaml
-      service: kafdrop
+    image: obsidiandynamics/kafdrop:latest
+    ports:
+      - 19000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:29092
+    networks:
+      - backend-stack-demo-network
     depends_on:
       - kafka
 
   redis:
-    extends:
-      file: ./common-services.yaml
-      service: redis
+    hostname: redis
+    image: redis
+    expose:
+      - 6379
+    networks:
+      - backend-stack-demo-network
 
   rabbit:
-    extends:
-      file: ./common-services.yaml
-      service: rabbit
+    hostname: rabbit
+    container_name: rabbit
+    image: rabbitmq:management-alpine
+    expose:
+      - 5672
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 15s
+      timeout: 30s
+      retries: 6
+    networks:
+      - backend-stack-demo-network
+
+  mongo:
+    image: mongo
+    hostname: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=rabbit-messages
+    volumes:
+      - ./mongo-volume:/tmp/mongo-volume
+    ports:
+      - 27017:27017
+    networks:
+      - backend-stack-demo-network
 
   backend-stack-demo:
-    extends:
-      file: ./common-services.yaml
-      service: backend-stack-demo
+    build:
+      context: ../../../..
+      dockerfile: Dockerfile
+    image: leocr/backend-stack-demo:latest
+    environment:
+      - KAFKA_TOPIC_FIRST_BOOTSTRAP_ADDRESS=kafka:9092
+      - RABBIT_HOST=rabbit
+    ports:
+      - 8080:8080
+    volumes:
+      - backend-stack-demo-volume:/tmp/backend-stack-demo-volume
+    logging:
+      driver: json-file
+    networks:
+      - backend-stack-demo-network
     depends_on:
+      - rabbit
       - kafka
       - redis
-      - rabbit
+      - mongo
+    command: ["curl", "-f", "http://rabbit:5672"]
 
 networks:
   backend-stack-demo-network:

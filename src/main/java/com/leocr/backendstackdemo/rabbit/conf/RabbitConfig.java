@@ -10,6 +10,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,9 +51,13 @@ public class RabbitConfig {
     @Value(value = "${rabbit.topic.first.routing.key:someRouting}")
     private String routingKey;
 
+    @Getter
+    @Value(value = "${rabbit.virtual.host:/}")
+    private String virtualHost;
+
     @Bean
     Queue queue() {
-        return new Queue(queue, false);
+        return new Queue(queue, false, false, false);
     }
 
     @Bean
@@ -77,16 +82,24 @@ public class RabbitConfig {
 
     @Bean
     public ConnectionFactory connectionFactory() {
+        System.out.printf("Starting RabbitMQ connection factory. host=[%s], port=[%s], username=[%s]\n", host, port,
+                username);
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost(host);
         connectionFactory.setPort(port);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost(virtualHost);
         return connectionFactory;
     }
 
     @Bean
     MessageListenerAdapter listenerAdapter(RabbitService rabbitService) {
         return new MessageListenerAdapter(rabbitService, "consume");
+    }
+
+    @Bean
+    public RabbitAdmin rabbitAdmin() {
+        return new RabbitAdmin(connectionFactory());
     }
 }

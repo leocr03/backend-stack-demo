@@ -1,5 +1,6 @@
-package com.leocr.backendstackdemo.webflux.api;
+package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.ReactiveRabbitController;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

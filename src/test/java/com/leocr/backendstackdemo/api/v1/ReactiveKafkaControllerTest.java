@@ -1,4 +1,4 @@
-package com.leocr.backendstackdemo.webflux.api;
+package com.leocr.backendstackdemo.api.v1;
 
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import org.junit.jupiter.api.BeforeEach;

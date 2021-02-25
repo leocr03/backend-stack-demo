@@ -10,20 +10,24 @@ So far, we have these items:
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
     * *KafkaDrop* in order to see the message queue
-    * Note: message persistence in Redis is shared with RabbitMQ
 * *RabbitMQ (RabbitMQ + RabbitMQ Management)*
     * It has been created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
     * *RabbitMQ Management* in order to see the message queue
-  * Note: message persistence in Redis is shared with Kafka
 * *Spring WebFlux*
     * Just reusing some code and adapting to work with ```Mono``` and ```Flux```
     * Common reactive programming functions (map, filter, etc.) is out of scope.
+* Redis
+    * It's being used to save data consumed by Kafka
+* MongoDB
+    * It's being used to save data consumed by RabbitMQ
+
 
 ## How to Use
-In order to run the tests easily, GET endpoints were created to produce a value.
+
+Note: In order to run the tests easily, *GET* endpoints were created to produce a value.
 
 ### Start Stack
 
@@ -33,7 +37,6 @@ To compile the project:
 
     * ```-x test``` to build without test (faster)
 
-
 To run the stack:
 
 * Enter the folder: ```src/main/resources/docker```
@@ -42,15 +45,15 @@ To run the stack:
 
 ### Test Kafka
 
-To produce some values to Kafka:
+To produce some values to Kafka, for instance:
 
-* [http://localhost:8080/kafka/produce/1](http://localhost:8080/kafka/produce/1)
+* [http://localhost:8080/api/v1/kafka/message/1](http://localhost:8080/api/v1/kafka/message/1)
 
-* [http://localhost:8080/kafka/produce/2](http://localhost:8080/kafka/produce/2)
+* [http://localhost:8080/api/v1/kafka/message/2](http://localhost:8080/api/v1/kafka/message/2)
 
-* [http://localhost:8080/kafka/produce/3](http://localhost:8080/kafka/produce/3)
+* [http://localhost:8080/api/v1/kafka/message/3](http://localhost:8080/api/v1/kafka/message/3)
 
-[http://localhost:8080/kafka/list](http://localhost:8080/kafka/list): list messages that were produced and consumed by Kafka
+[http://localhost:8080/api/v1/kafka/messages](http://localhost:8080/api/v1/kafka/messages): list messages that were produced and consumed by Kafka
 
 [http://localhost:19000](http://localhost:19000): access KafkaDrop
 
@@ -60,18 +63,17 @@ To produce some values to Kafka:
 
 ![kafka-3](https://i.imgur.com/H7FDYsB.png)
 
-
 ### Test RabbitMQ
 
-To produce some values to RabbitMQ:
+To produce some values to RabbitMQ, for instance:
 
-* [http://localhost:8080/rabbit/produce/10](http://localhost:8080/rabbit/produce/10)
+* [http://localhost:8080/api/v1/rabbit/message/10](http://localhost:8080/api/v1/rabbit/message/10)
 
-* [http://localhost:8080/rabbit/produce/11](http://localhost:8080/rabbit/produce/11)
+* [http://localhost:8080/api/v1/rabbit/message/11](http://localhost:8080/api/v1/rabbit/message/11)
 
-* [http://localhost:8080/rabbit/produce/12](http://localhost:8080/rabbit/produce/12)
+* [http://localhost:8080/api/v1/rabbit/message/12](http://localhost:8080/api/v1/rabbit/message/12)
 
-[http://localhost:8080/rabbit/list](http://localhost:8080/rabbit/list): list messages that were produced and consumed by RabbitMQ
+[http://localhost:8080/api/v1/rabbit/messages](http://localhost:8080/api/v1/rabbit/messages): list messages that were produced and consumed by RabbitMQ
 
 [http://localhost:15672](http://localhost:15672): access RabbitMQ Management (guest / guest)
 
@@ -79,11 +81,12 @@ To produce some values to RabbitMQ:
 
 ![rabbit-2](https://i.imgur.com/UVqPOWX.png)
 
+### Test Spring WebFlux
 
-### To test Spring WebFlux
+* Produce some Kafka or RabbitMQ value 
 
-[http://localhost:8080/reactive/kafka/list](http://localhost:8080/reactive/kafka/list): endpoint that reuses Kafka list service using ```Mono``` 
+* [http://localhost:8080/api/v1/reactive/kafka/messages](http://localhost:8080/api/v1/reactive/kafka/messages): endpoint that reuses Kafka list service using ```Mono``` 
 
-[http://localhost:8080/reactive/rabbit/list](http://localhost:8080/reactive/rabbit/list): endpoint that reuses Rabbit list service using ```Flux```
+* [http://localhost:8080/api/v1/reactive/rabbit/messages](http://localhost:8080/api/v1/reactive/rabbit/messages): endpoint that reuses Rabbit list service using ```Flux```
 
 
