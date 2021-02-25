@@ -1,5 +1,6 @@
-package com.leocr.backendstackdemo.kafka.api;
+package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.KafkaController;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
