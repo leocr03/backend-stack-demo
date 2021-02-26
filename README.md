@@ -4,6 +4,8 @@ This project provides examples of using the main Java technology stack needed by
 
 So far, we have these items:
 
+* *[Gradle](https://spring.io/guides/gs/gradle/)*
+    * Application is using gradle to be built.
 * *[Spring-Boot](https://spring.io/guides/gs/spring-boot/)*
     * Application was created with Spring Boot using [Spring Initializr](https://start.spring.io/)
 * *[Docker](https://www.docker.com/get-started)*
