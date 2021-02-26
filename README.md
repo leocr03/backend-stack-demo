@@ -89,4 +89,18 @@ To produce some values to RabbitMQ, for instance:
 
 * [http://localhost:8080/api/v1/reactive/rabbit/messages](http://localhost:8080/api/v1/reactive/rabbit/messages): endpoint that reuses Rabbit list service using ```Flux```
 
+### Test Redis
 
+* Run steps to produce values for Kafka
+
+* Enter in CLI of Redis container: ```docker exec -it redis redis-cli```
+
+* Please refer to [https://redis.io/commands](https://redis.io/commands). E.g.: ```KEYS *```
+
+### Test Mongo
+
+* Run steps to produce values for Mongo
+
+* Enter in CLI of Mongo container: ```docker exec -it mongo mongo```
+
+* Please refer to [https://docs.mongodb.com/manual/reference/mongo-shell/](https://docs.mongodb.com/manual/reference/mongo-shell/). E.g.: ```db.message.find()```

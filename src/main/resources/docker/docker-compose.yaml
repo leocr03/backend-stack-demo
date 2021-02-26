@@ -2,6 +2,7 @@ version: '3.8'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -27,6 +28,7 @@ services:
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
     ports:
       - 19000:9000
     environment:
@@ -38,6 +40,7 @@ services:
 
   redis:
     hostname: redis
+    container_name: redis
     image: redis
     expose:
       - 6379
@@ -64,6 +67,7 @@ services:
   mongo:
     image: mongo
     hostname: mongo
+    container_name: mongo
     environment:
       - MONGO_INITDB_DATABASE=rabbit-messages
     volumes:
@@ -78,6 +82,7 @@ services:
       context: ../../../..
       dockerfile: Dockerfile
     image: leocr/backend-stack-demo:latest
+    container_name: backend-stack-demo
     environment:
       - KAFKA_TOPIC_FIRST_BOOTSTRAP_ADDRESS=kafka:9092
       - RABBIT_HOST=rabbit
