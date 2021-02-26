@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.ReactiveRabbitController;
+import com.leocr.backendstackdemo.api.v1.model.RabbitResponse;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,9 @@ class ReactiveRabbitControllerTest {
     @Test
     void list() {
         when(rabbitService.list()).thenReturn("1, 2");
-        final Flux<String> list = controller.list();
+        final Flux<RabbitResponse> list = controller.list();
         StepVerifier.create(list)
-                .expectNext("1, 2")
+                .expectNext(new RabbitResponse("1, 2"))
                 .expectComplete()
                 .verify();
     }

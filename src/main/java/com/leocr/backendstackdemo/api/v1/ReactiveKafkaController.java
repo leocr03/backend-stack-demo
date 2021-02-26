@@ -1,6 +1,12 @@
 package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.model.KafkaResponse;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +24,15 @@ public class ReactiveKafkaController {
         this.kafkaService = kafkaService;
     }
 
+    @Operation(summary = "List the messages produced and consumed in Kafka using Spring WebFlux.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by Kafka using Spring WebFlux.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = Integer.class))
+                    })
+    })
     @GetMapping(value = "/messages", produces = "application/json")
-    public Mono<String> list() {
-        return Mono.just(kafkaService.list());
+    public Mono<KafkaResponse> list() {
+        return Mono.just(new KafkaResponse(kafkaService.list()));
     }
 }
