@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.model.KafkaResponse;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +28,9 @@ class ReactiveKafkaControllerTest {
     @Test
     void list() {
         when(kafkaService.list()).thenReturn("1, 2, 3");
-        final Mono<String> list = controller.list();
+        final Mono<KafkaResponse> list = controller.list();
         StepVerifier.create(list)
-                .expectNext("1, 2, 3")
+                .expectNext(new KafkaResponse("1, 2, 3"))
                 .expectComplete()
                 .verify();
     }

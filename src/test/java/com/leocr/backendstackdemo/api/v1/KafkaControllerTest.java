@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.KafkaController;
+import com.leocr.backendstackdemo.api.v1.model.KafkaResponse;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,9 @@ class KafkaControllerTest {
 
     @Test
     void kafkaProduce() {
-        final int someNumber = 5;
-        controller.produce(someNumber);
-        verify(kafkaService).produce(eq(someNumber));
+        final int value = 5;
+        controller.produce(value);
+        verify(kafkaService).produce(eq(value));
     }
 
     @Test
@@ -38,9 +38,10 @@ class KafkaControllerTest {
         final String value = "1, 2, 3, 4, 5";
         when(kafkaService.list()).thenReturn(value);
 
-        final String result = controller.list();
+        final KafkaResponse result = controller.list();
 
-        assertEquals("1, 2, 3, 4, 5", result);
+        final KafkaResponse expected = new KafkaResponse("1, 2, 3, 4, 5");
+        assertEquals(expected, result);
         verify(kafkaService).list();
     }
 }

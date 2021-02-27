@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.RabbitController;
+import com.leocr.backendstackdemo.api.v1.model.RabbitResponse;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +28,8 @@ class RabbitControllerTest {
 
     @Test
     void produce() {
-        final Integer someNumber = 2;
-        controller.produce(someNumber);
+        final Integer value = 2;
+        controller.produce(value);
         verify(rabbitService).produce(anyInt());
     }
 
@@ -37,9 +37,10 @@ class RabbitControllerTest {
     void list() {
         when(rabbitService.list()).thenReturn("someResult");
 
-        final String list = controller.list();
+        final RabbitResponse list = controller.list();
 
         verify(rabbitService).list();
-        assertEquals("someResult", list);
+        final RabbitResponse expected = new RabbitResponse("someResult");
+        assertEquals(expected, list);
     }
 }
