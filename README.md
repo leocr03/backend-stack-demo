@@ -11,7 +11,7 @@ So far, we have these items:
 * *[Docker](https://www.docker.com/get-started)*
     * [Dockerfile](https://github.com/leocr03/backend-stack-demo/blob/main/Dockerfile) contains an example of the dockerization of an application (in this case *backend-stack-demo* application)
 * *[Docker-Compose](https://docs.docker.com/compose/)*
-    * [docker-compose](https://github.com/leocr03/backend-stack-demo/blob/main/src/main/resources/docker/docker-compose.yaml) contains an example of docker compose with all the applications needed.
+    * [docker-compose.yaml](https://github.com/leocr03/backend-stack-demo/blob/main/src/main/resources/docker/docker-compose.yaml) contains an example of docker compose with all the applications needed.
 * *Kafka ([Kafka](https://kafka.apache.org/documentation/) + [ZooKeeper](https://zookeeper.apache.org/) + [KafkaDrop](https://github.com/obsidiandynamics/kafdrop))*
     * It has been created:
         * an endpoint to produce some value
@@ -129,6 +129,21 @@ To run the stack:
 
 * To see API Specification:
 
-    * Build and start stack to see the API spencification
+    * Build and start stack to see the API specification
 
     * Access here: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+    
+
+## Future Work
+
+* Integration Tests with Wiremock
+
+    * More Meaningful Entities
+    
+    * Validation
+
+* Transaction Management
+
+* Authentication
+
+* Security
