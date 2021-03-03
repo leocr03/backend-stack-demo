@@ -12,6 +12,7 @@ import reactor.test.StepVerifier;
 
 import java.util.Arrays;
 
+import static java.util.stream.Collectors.toSet;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,10 +30,10 @@ class ReactiveRabbitControllerTest {
 
     @Test
     void list() {
-        when(rabbitService.list()).thenReturn(Arrays.asList("1", "2"));
+        when(rabbitService.list()).thenReturn(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
         final Flux<RabbitPageDto> list = controller.list();
         StepVerifier.create(list)
-                .expectNext(new RabbitPageDto(Arrays.asList("1", "2")))
+                .expectNext(new RabbitPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet())))
                 .expectComplete()
                 .verify();
     }

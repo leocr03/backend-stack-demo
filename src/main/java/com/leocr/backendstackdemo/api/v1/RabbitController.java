@@ -1,6 +1,5 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.KafkaDto;
 import com.leocr.backendstackdemo.api.v1.dto.RabbitDto;
 import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
@@ -43,11 +42,11 @@ public class RabbitController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value produced to RabbitMQ.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = RabbitDto.class))
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RabbitDto.class))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
-    @GetMapping(value = "/message/{value}", produces = "application/json")
+    @GetMapping(value = "/message/{value}")
     public ResponseEntity<RabbitDto> produce(@PathVariable Integer value) {
         ResponseEntity<RabbitDto> response;
 
@@ -68,10 +67,10 @@ public class RabbitController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by RabbitMQ.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = RabbitPageDto.class))
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = RabbitPageDto.class))
                     })
     })
-    @GetMapping(value = "/messages", produces = "application/json")
+    @GetMapping(value = "/messages")
     public ResponseEntity<RabbitPageDto> list() {
         return new ResponseEntity<>(new RabbitPageDto(service.list()), HttpStatus.OK);
     }

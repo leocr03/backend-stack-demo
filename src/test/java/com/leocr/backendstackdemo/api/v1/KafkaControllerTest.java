@@ -12,8 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -54,12 +55,12 @@ class KafkaControllerTest {
 
     @Test
     void kafkaList() {
-        final List<String> values = Arrays.asList("1", "2", "3", "4", "5");
+        final Set<String> values = Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet());
         when(kafkaService.list()).thenReturn(values);
 
         final ResponseEntity<KafkaPageDto> result = controller.list();
 
-        final KafkaPageDto dto = new KafkaPageDto(Arrays.asList("1", "2", "3", "4", "5"));
+        final KafkaPageDto dto = new KafkaPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
         final ResponseEntity<KafkaPageDto> expected = new ResponseEntity<>(dto, HttpStatus.OK);
         assertEquals(expected, result);
         verify(kafkaService).list();

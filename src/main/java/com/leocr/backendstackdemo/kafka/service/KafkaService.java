@@ -11,12 +11,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 public class KafkaService {
@@ -61,13 +61,13 @@ public class KafkaService {
         return message;
     }
 
-    public List<String> list() {
+    public Set<String> list() {
         final Iterable<Message> messages = redisMessageRepository.findAll();
         return StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(messages.iterator(), Spliterator.NONNULL), false)
                 .sorted(Comparator.comparing(Message::getCreatedAt))
                 .map(Message::getValue)
                 .map(Object::toString)
-                .collect(toList());
+                .collect(toSet());
     }
 }

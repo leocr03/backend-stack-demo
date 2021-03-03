@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
-import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static java.util.stream.Collectors.toSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -52,14 +54,15 @@ class RabbitControllerTest {
 
     @Test
     void list() {
-        when(rabbitService.list()).thenReturn(Collections.singletonList("someResult"));
+        when(rabbitService.list()).thenReturn(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
 
         final ResponseEntity<RabbitPageDto> response = controller.list();
 
         verify(rabbitService).list();
-        final RabbitPageDto dto = new RabbitPageDto(Collections.singletonList("someResult"));
+        final RabbitPageDto dto = new RabbitPageDto(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
         final ResponseEntity<RabbitPageDto> expected = new ResponseEntity<>(
                 dto, HttpStatus.OK);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(expected.getBody(), response.getBody());
     }
 }

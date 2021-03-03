@@ -144,3 +144,9 @@ To run the stack:
 * Authentication
 
 * Security
+
+
+## References
+
+* [REST Best Practices](https://codeburst.io/spring-boot-rest-microservices-best-practices-2a6e50797115)
+

@@ -12,7 +12,9 @@ import reactor.test.StepVerifier;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,11 +32,11 @@ class ReactiveKafkaControllerTest {
 
     @Test
     void list() {
-        final List<String> values = Arrays.asList("1", "2", "3");
+        final Set<String> values = Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet());
         when(kafkaService.list()).thenReturn(values);
         final Mono<KafkaPageDto> list = controller.list();
         StepVerifier.create(list)
-                .expectNext(new KafkaPageDto(Arrays.asList("1", "2", "3")))
+                .expectNext(new KafkaPageDto(Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet())))
                 .expectComplete()
                 .verify();
     }

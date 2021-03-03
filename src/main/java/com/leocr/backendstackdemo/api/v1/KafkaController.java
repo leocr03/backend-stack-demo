@@ -42,7 +42,7 @@ public class KafkaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value produced to Kafka.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = KafkaDto.class))
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = KafkaDto.class))
                     }),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
@@ -67,10 +67,10 @@ public class KafkaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by Kafka.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = KafkaPageDto.class))
+                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = KafkaPageDto.class))
                     })
     })
-    @GetMapping(value = "/messages", produces = "application/json")
+    @GetMapping(value = "/messages")
     public ResponseEntity<KafkaPageDto> list() {
         return new ResponseEntity<>(new KafkaPageDto(service.list()), HttpStatus.OK);
     }

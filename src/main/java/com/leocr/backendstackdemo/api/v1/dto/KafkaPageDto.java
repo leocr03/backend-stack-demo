@@ -1,10 +1,10 @@
 package com.leocr.backendstackdemo.api.v1.dto;
 
-import java.util.List;
+import java.util.Set;
 
 public class KafkaPageDto extends BasicPageDto {
 
-    public KafkaPageDto(List<String> values) {
+    public KafkaPageDto(Set<String> values) {
         super(values);
     }
 }

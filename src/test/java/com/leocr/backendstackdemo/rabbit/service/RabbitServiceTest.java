@@ -12,7 +12,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -70,9 +72,9 @@ class RabbitServiceTest {
                 new Message(5));
         when(mongoMessageRepository.findAll()).thenReturn(values);
 
-        final List<String> result = service.list();
+        final Set<String> result = service.list();
 
         verify(mongoMessageRepository).findAll();
-        assertEquals(Arrays.asList("1", "2", "3", "4", "5"), result);
+        assertEquals(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()), result);
     }
 }
