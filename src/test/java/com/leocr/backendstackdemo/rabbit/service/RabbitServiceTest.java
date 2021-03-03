@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.rabbit.service;
 
-import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
 import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
+import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RabbitServiceTest {
@@ -44,9 +43,18 @@ class RabbitServiceTest {
         when(rabbitConfig.getRoutingKey()).thenReturn("someRoutingKey");
         when(rabbitConfig.getExchange()).thenReturn("someExchange");
 
-        service.produce(value);
+        final String res = service.produce(value);
 
         verify(rabbitTemplate).convertAndSend(anyString(), anyString(), anyString());
+        assertEquals("1", res);
+    }
+
+    @Test
+    void produceNullValueShouldThrowException() {
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> service.produce(null), "Expected to throw, but it didn't");
+        assertTrue(ex.getMessage().contains("Argument \"value\" cannot be null."));
+        verify(rabbitTemplate, never()).send(any(), any());
     }
 
     @Test
@@ -62,9 +70,9 @@ class RabbitServiceTest {
                 new Message(5));
         when(mongoMessageRepository.findAll()).thenReturn(values);
 
-        final String result = service.list();
+        final List<String> result = service.list();
 
         verify(mongoMessageRepository).findAll();
-        assertEquals("1, 2, 3, 4, 5", result);
+        assertEquals(Arrays.asList("1", "2", "3", "4", "5"), result);
     }
 }

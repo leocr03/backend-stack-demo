@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.model.KafkaResponse;
+import com.leocr.backendstackdemo.api.v1.dto.KafkaPageDto;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,11 +28,11 @@ public class ReactiveKafkaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by Kafka using Spring WebFlux.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = Integer.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = KafkaPageDto.class))
                     })
     })
     @GetMapping(value = "/messages", produces = "application/json")
-    public Mono<KafkaResponse> list() {
-        return Mono.just(new KafkaResponse(kafkaService.list()));
+    public Mono<KafkaPageDto> list() {
+        return Mono.just(new KafkaPageDto(kafkaService.list()));
     }
 }

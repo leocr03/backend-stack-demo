@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.kafka.service;
 
-import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
 import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class KafkaServiceTest {
@@ -42,9 +43,18 @@ class KafkaServiceTest {
         final Integer value = 5;
         when(kafkaTopicConfig.getTopicName()).thenReturn("first");
 
-        service.produce(value);
+        final String res = service.produce(value);
 
         verify(kafkaTemplate).send(eq("first"), eq("5"));
+        assertEquals("5", res);
+    }
+
+    @Test
+    void produceNullValueShouldThrowException() {
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> service.produce(null), "Expected to throw, but it didn't");
+        assertTrue(ex.getMessage().contains("Argument \"value\" cannot be null."));
+        verify(kafkaTemplate, never()).send(any(), any());
     }
 
     @Test
@@ -69,9 +79,9 @@ class KafkaServiceTest {
             add(new Message(5));
         }});
 
-        final String result = service.list();
+        final List<String> result = service.list();
 
-        assertEquals("1, 2, 3, 4, 5", result);
+        assertEquals(Arrays.asList("1", "2", "3", "4", "5"), result);
         verify(redisMessageRepository).findAll();
     }
 }

@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.model.RabbitResponse;
+import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+
+import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 
@@ -27,10 +29,10 @@ class ReactiveRabbitControllerTest {
 
     @Test
     void list() {
-        when(rabbitService.list()).thenReturn("1, 2");
-        final Flux<RabbitResponse> list = controller.list();
+        when(rabbitService.list()).thenReturn(Arrays.asList("1", "2"));
+        final Flux<RabbitPageDto> list = controller.list();
         StepVerifier.create(list)
-                .expectNext(new RabbitResponse("1, 2"))
+                .expectNext(new RabbitPageDto(Arrays.asList("1", "2")))
                 .expectComplete()
                 .verify();
     }
