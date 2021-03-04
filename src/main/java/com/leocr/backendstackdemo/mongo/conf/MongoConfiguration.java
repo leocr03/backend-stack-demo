@@ -21,16 +21,20 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
     @Getter
     @Setter
-    @Value("${mongo.database.name:test}")
+    @Value("${mongo.database.name}")
     public String databaseName;
+
+    @Getter
+    @Setter
+    @Value("${mongo.connection.string}")
+    private String connectionString;
 
     @Override
     public @NotNull MongoClient mongoClient() {
-        final ConnectionString connectionString = new ConnectionString("mongodb://mongo:27017/test");
+        final ConnectionString conn = new ConnectionString(this.connectionString);
         final MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
+                .applyConnectionString(conn)
                 .build();
-
         return MongoClients.create(mongoClientSettings);
     }
 

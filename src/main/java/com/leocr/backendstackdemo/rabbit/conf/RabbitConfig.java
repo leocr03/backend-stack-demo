@@ -22,37 +22,37 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
 
     @Getter
-    @Value(value = "${rabbit.host:localhost}")
+    @Value(value = "${rabbit.host}")
     private String host;
 
     @Getter
     @Setter
-    @Value(value = "${rabbit.port:5672}")
+    @Value(value = "${rabbit.port}")
     private Integer port;
 
     @Getter
-    @Value(value = "${rabbit.username:guest}")
+    @Value(value = "${rabbit.username}")
     private String username;
 
     @Getter
-    @Value(value = "${rabbit.password:guest}")
+    @Value(value = "${rabbit.password}")
     private String password;
 
     @Getter
     @Setter
-    @Value(value = "${rabbit.queue:someQueue}")
+    @Value(value = "${rabbit.queue}")
     private String queue;
 
     @Getter
-    @Value(value = "${rabbit.queue:someExchange}")
+    @Value(value = "${rabbit.exchange}")
     private String exchange;
 
     @Getter
-    @Value(value = "${rabbit.topic.first.routing.key:someRouting}")
+    @Value(value = "${rabbit.topic.first.routing.key}")
     private String routingKey;
 
     @Getter
-    @Value(value = "${rabbit.virtual.host:/}")
+    @Value(value = "${rabbit.virtual.host}")
     private String virtualHost;
 
     @Bean

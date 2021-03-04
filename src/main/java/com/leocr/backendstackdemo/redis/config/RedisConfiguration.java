@@ -16,11 +16,11 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 public class RedisConfiguration {
 
     @Getter
-    @Value(value = "${redis.hostName:redis}")
+    @Value(value = "${redis.host.name}")
     private String hostName;
 
     @Getter
-    @Value(value = "${redis.port:6379}")
+    @Value(value = "${redis.port}")
     private int port;
 
     @Bean

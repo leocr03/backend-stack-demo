@@ -16,6 +16,7 @@ class MongoConfigurationTest {
     void setUp() {
         configuration = new MongoConfiguration();
         configuration.setDatabaseName("test");
+        configuration.setConnectionString("mongodb://mongo:27017/test");
     }
 
     @Test
