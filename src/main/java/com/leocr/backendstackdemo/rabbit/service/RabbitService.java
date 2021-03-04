@@ -1,11 +1,9 @@
 package com.leocr.backendstackdemo.rabbit.service;
 
 import com.leocr.backendstackdemo.common.model.Message;
-import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,9 @@ import java.util.stream.StreamSupport;
 import static java.util.stream.Collectors.toSet;
 
 @Service
+@Slf4j
 public class RabbitService {
 
-    private static final Logger logger = LoggerFactory.getLogger(KafkaService.class);
     private static final String ARGUMENT_VALUE_CANNOT_BE_NULL = "Argument \"value\" cannot be null.";
     private static final String RABBIT_MQ_RECEIVED_MESSAGE = "[RabbitMQ][{}][{}] Received Message: {}}\n";
     private static final String RABBIT_MQ_MESSAGE_SAVED_ON_REDIS = "[RabbitMQ] Message saved on Redis: {}";
@@ -54,11 +52,11 @@ public class RabbitService {
     @Qualifier("receiveMessage")
     @RabbitListener(queues = "#{rabbitConfig.getQueue()}")
     public void consume(String message) {
-        logger.info(RABBIT_MQ_RECEIVED_MESSAGE, rabbitConfig.getExchange(),  rabbitConfig.getRoutingKey(), message);
+        log.info(RABBIT_MQ_RECEIVED_MESSAGE, rabbitConfig.getExchange(),  rabbitConfig.getRoutingKey(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
         mongoMessageRepository.save(msg);
-        logger.info(RABBIT_MQ_MESSAGE_SAVED_ON_REDIS, message);
+        log.info(RABBIT_MQ_MESSAGE_SAVED_ON_REDIS, message);
     }
 
     public Set<String> list() {

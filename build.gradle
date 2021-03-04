@@ -38,6 +38,7 @@ dependencies {
 	implementation group: 'redis.clients', name: 'jedis', version: "3.5.1"
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.4'
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.24'
+	implementation group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.1.Final'
 }
 
 test {

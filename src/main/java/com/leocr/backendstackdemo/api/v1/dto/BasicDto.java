@@ -17,7 +17,7 @@ public abstract class BasicDto {
     @NotEmpty
     @NotBlank
     @NotNull
-    @Size(min = 0, max = 10)
+    @Size(max = 10, message = "The value must have equal or less than 10 digits")
     protected final String value;
 
     @Getter
@@ -25,7 +25,7 @@ public abstract class BasicDto {
     @NotEmpty
     @NotBlank
     @NotNull
-    @Size(min = 0, max = 10000)
+    @Size(max = 10000, message = "The value must have equal or less than 10000 characters")
     protected final String message;
 
     public BasicDto(String value, String message) {
