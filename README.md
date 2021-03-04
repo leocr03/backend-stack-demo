@@ -137,6 +137,8 @@ To run the stack:
 
 * Validation
 
+* Database migration tool for Mongo
+
 * Support to Java 15 (fix issue with JaCoco)
 
 * Transaction Management
