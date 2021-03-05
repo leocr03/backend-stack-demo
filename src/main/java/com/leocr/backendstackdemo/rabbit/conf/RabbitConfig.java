@@ -1,8 +1,6 @@
 package com.leocr.backendstackdemo.rabbit.conf;
 
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -14,7 +12,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,56 +20,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    @Getter
-    @Value(value = "${rabbit.host}")
-    private String host;
+    private RabbitPropertiesConfig rabbitPropertiesConfig;
 
-    @Getter
-    @Setter
-    @Value(value = "${rabbit.port}")
-    private Integer port;
-
-    @Getter
-    @Value(value = "${rabbit.username}")
-    private String username;
-
-    @Getter
-    @Value(value = "${rabbit.password}")
-    private String password;
-
-    @Getter
-    @Setter
-    @Value(value = "${rabbit.queue}")
-    private String queue;
-
-    @Getter
-    @Value(value = "${rabbit.exchange}")
-    private String exchange;
-
-    @Getter
-    @Value(value = "${rabbit.topic.first.routing.key}")
-    private String routingKey;
-
-    @Getter
-    @Value(value = "${rabbit.virtual.host}")
-    private String virtualHost;
+    @Autowired
+    public RabbitConfig(RabbitPropertiesConfig rabbitPropertiesConfig) {
+        this.rabbitPropertiesConfig = rabbitPropertiesConfig;
+    }
 
     @Bean
     @NotNull
     Queue queue() {
-        return new Queue(queue, false, false, false);
+        return new Queue(rabbitPropertiesConfig.getQueue(), false, false, false);
     }
 
     @Bean
     @NotNull
     TopicExchange exchange() {
-        return new TopicExchange(exchange);
+        return new TopicExchange(rabbitPropertiesConfig.getExchange());
     }
 
     @Bean
     @NotNull
     Binding binding(@NotNull Queue queue, @NotNull TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+        return BindingBuilder.bind(queue).to(exchange).with(rabbitPropertiesConfig.getRoutingKey());
     }
 
     @Bean
@@ -80,21 +51,22 @@ public class RabbitConfig {
                                              @NotNull MessageListenerAdapter listenerAdapter) {
         final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queue);
+        container.setQueueNames(rabbitPropertiesConfig.getQueue());
         container.setMessageListener(listenerAdapter);
         return container;
     }
 
     @Bean
     public @NotNull ConnectionFactory connectionFactory() {
-        System.out.printf("Starting RabbitMQ connection factory. host=[%s], port=[%s], username=[%s]\n", host, port,
-                username);
+        System.out.printf("Starting RabbitMQ connection factory. host=[%s], port=[%s], username=[%s]\n",
+                rabbitPropertiesConfig.getHost(), rabbitPropertiesConfig.getPort(),
+                rabbitPropertiesConfig.getUsername());
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setHost(host);
-        connectionFactory.setPort(port);
-        connectionFactory.setUsername(username);
-        connectionFactory.setPassword(password);
-        connectionFactory.setVirtualHost(virtualHost);
+        connectionFactory.setHost(rabbitPropertiesConfig.getHost());
+        connectionFactory.setPort(rabbitPropertiesConfig.getPort());
+        connectionFactory.setUsername(rabbitPropertiesConfig.getUsername());
+        connectionFactory.setPassword(rabbitPropertiesConfig.getPassword());
+        connectionFactory.setVirtualHost(rabbitPropertiesConfig.getVirtualHost());
         return connectionFactory;
     }
 

@@ -2,7 +2,7 @@ package com.leocr.backendstackdemo.rabbit.service;
 
 import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
-import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
+import com.leocr.backendstackdemo.rabbit.conf.RabbitPropertiesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,23 +27,23 @@ public class RabbitService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private final RabbitConfig rabbitConfig;
+    private final RabbitPropertiesConfig rabbitPropertiesConfig;
 
     private final MongoMessageRepository mongoMessageRepository;
 
     @Autowired
-    public RabbitService(RabbitTemplate rabbitTemplate, RabbitConfig rabbitConfig,
+    public RabbitService(RabbitTemplate rabbitTemplate, RabbitPropertiesConfig rabbitPropertiesConfig,
                          MongoMessageRepository mongoMessageRepository) {
         this.rabbitTemplate = rabbitTemplate;
-        this.rabbitConfig = rabbitConfig;
+        this.rabbitPropertiesConfig = rabbitPropertiesConfig;
         this.mongoMessageRepository = mongoMessageRepository;
     }
 
     public String produce(@Nullable Integer value) {
         if (value != null) {
             final String message = value.toString();
-            final String routingKey = rabbitConfig.getRoutingKey();
-            final String exchange = rabbitConfig.getExchange();
+            final String routingKey = rabbitPropertiesConfig.getRoutingKey();
+            final String exchange = rabbitPropertiesConfig.getExchange();
             rabbitTemplate.convertAndSend(exchange, routingKey, message);
             return String.valueOf(value);
         } else {
@@ -52,9 +52,9 @@ public class RabbitService {
     }
 
     @Qualifier("receiveMessage")
-    @RabbitListener(queues = "#{rabbitConfig.getQueue()}")
+    @RabbitListener(queues = "#{rabbitPropertiesConfig.getQueue()}")
     public void consume(@NotNull String message) {
-        log.info(RABBIT_MQ_RECEIVED_MESSAGE, rabbitConfig.getExchange(),  rabbitConfig.getRoutingKey(), message);
+        log.info(RABBIT_MQ_RECEIVED_MESSAGE, rabbitPropertiesConfig.getExchange(),  rabbitPropertiesConfig.getRoutingKey(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
         mongoMessageRepository.save(msg);
