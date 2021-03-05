@@ -38,14 +38,13 @@ public class KafkaController {
         this.service = service;
     }
 
-    @Operation(summary = "Produce value to Kafka.", parameters = {
-            @Parameter(name = "value", example = "1", description = "Integer number to be produced on Kafka.")
-    })
+    @Operation(summary = "Produce value to Kafka.",
+            parameters = {@Parameter(name = "value", example = "1",
+                    description = "Integer number to be produced on Kafka.")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value produced to Kafka.",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = KafkaDto.class))
-                    }),
+                    content = {@Content(mediaType = APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = KafkaDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}") // it Kept as GET in order to facilitate tests
@@ -60,9 +59,8 @@ public class KafkaController {
     @Operation(summary = "List the messages produced and consumed in Kafka.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by Kafka.",
-                    content = {
-                            @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = KafkaPageDto.class))
-                    })
+                    content = {@Content(mediaType = APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = KafkaPageDto.class))})
     })
     @GetMapping(value = "/messages")
     public ResponseEntity<KafkaPageDto> list() {
