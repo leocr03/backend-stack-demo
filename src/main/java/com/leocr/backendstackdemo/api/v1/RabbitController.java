@@ -50,19 +50,10 @@ public class RabbitController {
     })
     @GetMapping(value = "/message/{value}")
     public ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
-        ResponseEntity<RabbitDto> response;
-
-        try {
-            final String valueProduced = service.produce(value);
-            final RabbitDto dto = new RabbitDto(valueProduced, VALUE_PRODUCED_TO_RABBIT_MQ + value);
-            log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
-            response = new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch(IllegalArgumentException ex) {
-            log.warn("Invalid parameter.", ex);
-            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return response;
+        final String valueProduced = service.produce(value);
+        final RabbitDto dto = new RabbitDto(valueProduced, VALUE_PRODUCED_TO_RABBIT_MQ + value);
+        log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @Operation(summary = "List the messages produced and consumed in RabbitMQ.")

@@ -135,8 +135,6 @@ To run the stack:
 
 ## Future Work
 
-* Validation
-
 * Database migration tool for Mongo
 
 * Support to Java 15 (fix issue with JaCoco)
@@ -146,6 +144,8 @@ To run the stack:
 * Authentication
 
 * Security
+
+* More of Spring WebFlux
 
 
 ## References
