@@ -4,14 +4,13 @@ import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.Spliterator;
@@ -42,7 +41,7 @@ public class KafkaService {
         this.redisMessageRepository = redisMessageRepository;
     }
 
-    public String produce(Integer value) {
+    public String produce(@Nullable Integer value) {
         if (value != null) {
             final String topicName = kafkaTopicConfig.getTopicName();
             kafkaTemplate.send(topicName, String.valueOf(value));
@@ -53,7 +52,7 @@ public class KafkaService {
     }
 
     @KafkaListener(topics = "#{kafkaTopicConfig.getTopicName()}", groupId = "#{kafkaTopicConfig.getGroupId()}")
-    public String consume(String message) {
+    public @NotNull String consume(@NotNull String message) {
         log.info(KAFKA_RECEIVED_MESSAGE,  kafkaTopicConfig.getGroupId(),
                 kafkaTopicConfig.getTopicName(), message);
         final Integer value = Integer.valueOf(message);

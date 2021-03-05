@@ -37,7 +37,7 @@ So far, we have these items:
 
 * JDK: 11
 * Gradle: > 6.8.2
-    * Tip: you can use [sdkman](http://sdkman.io/) to install Java and Gradle (it's easy to manage different version)
+    * Tip: you can use [sdkman](http://sdkman.io/) to install Java and Gradle (it's easy to manage a different version)
 * Docker: > 20.10.3
 * Docker-Compose: > 1.26.0
 

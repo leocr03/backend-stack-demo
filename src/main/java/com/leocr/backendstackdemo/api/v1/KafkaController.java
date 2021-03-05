@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class KafkaController {
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}") // it Kept as GET in order to facilitate tests
-    public ResponseEntity<KafkaDto> produce(
+    public @NotNull ResponseEntity<KafkaDto> produce(
             @PathVariable(name = "value") @Range(min = 1, max = 99999) Integer value) {
         final String valueProduced = service.produce(value);
         final KafkaDto dto = new KafkaDto(valueProduced, VALUE_PRODUCED_TO_KAFKA + value);
@@ -63,7 +64,7 @@ public class KafkaController {
                             schema = @Schema(implementation = KafkaPageDto.class))})
     })
     @GetMapping(value = "/messages")
-    public ResponseEntity<KafkaPageDto> list() {
+    public @NotNull ResponseEntity<KafkaPageDto> list() {
         return new ResponseEntity<>(new KafkaPageDto(service.list()), HttpStatus.OK);
     }
 }

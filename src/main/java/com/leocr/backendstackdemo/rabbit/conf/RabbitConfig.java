@@ -3,6 +3,7 @@ package com.leocr.backendstackdemo.rabbit.conf;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -56,23 +57,27 @@ public class RabbitConfig {
     private String virtualHost;
 
     @Bean
+    @NotNull
     Queue queue() {
         return new Queue(queue, false, false, false);
     }
 
     @Bean
+    @NotNull
     TopicExchange exchange() {
         return new TopicExchange(exchange);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
+    @NotNull
+    Binding binding(@NotNull Queue queue, @NotNull TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
+    @NotNull
+    SimpleMessageListenerContainer container(@NotNull ConnectionFactory connectionFactory,
+                                             @NotNull MessageListenerAdapter listenerAdapter) {
         final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(queue);
@@ -81,7 +86,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    public ConnectionFactory connectionFactory() {
+    public @NotNull ConnectionFactory connectionFactory() {
         System.out.printf("Starting RabbitMQ connection factory. host=[%s], port=[%s], username=[%s]\n", host, port,
                 username);
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
@@ -94,12 +99,13 @@ public class RabbitConfig {
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(RabbitService rabbitService) {
+    @NotNull
+    MessageListenerAdapter listenerAdapter(@NotNull RabbitService rabbitService) {
         return new MessageListenerAdapter(rabbitService, "consume");
     }
 
     @Bean
-    public RabbitAdmin rabbitAdmin() {
+    public @NotNull RabbitAdmin rabbitAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
 }

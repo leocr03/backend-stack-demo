@@ -1,6 +1,7 @@
 package com.leocr.backendstackdemo.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+    public @NotNull ResponseEntity<Object> handleMethodArgumentTypeMismatchException(@NotNull MethodArgumentTypeMismatchException ex) {
         final String name = ex.getName();
         final String type = Objects.requireNonNull(ex.getRequiredType()).getSimpleName();
         final String message = String.format("[%s] should be of type [%s].", name, type);
@@ -32,7 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+    public @NotNull ResponseEntity<Object> handleConstraintViolationException(@NotNull ConstraintViolationException ex) {
         final List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "
@@ -44,14 +45,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+    public @NotNull ResponseEntity<Object> handleAllExceptions(@NotNull Exception ex, WebRequest request) {
         final List<String> errors = new ArrayList<>();
         final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
                 ex.getClass().getSimpleName(), errors);
         return getExceptionResponseEntity(apiError);
     }
 
-    private ResponseEntity<Object> getExceptionResponseEntity(ApiError apiError) {
+    private @NotNull ResponseEntity<Object> getExceptionResponseEntity(@NotNull ApiError apiError) {
         final HttpStatus httpStatus = apiError.getStatus();
         return new ResponseEntity<>(apiError, httpStatus);
     }

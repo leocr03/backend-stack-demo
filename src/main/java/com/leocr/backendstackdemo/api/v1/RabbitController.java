@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class RabbitController {
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}")
-    public ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
+    public @NotNull ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
         final String valueProduced = service.produce(value);
         final RabbitDto dto = new RabbitDto(valueProduced, VALUE_PRODUCED_TO_RABBIT_MQ + value);
         log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
@@ -64,7 +65,7 @@ public class RabbitController {
                     })
     })
     @GetMapping(value = "/messages")
-    public ResponseEntity<RabbitPageDto> list() {
+    public @NotNull ResponseEntity<RabbitPageDto> list() {
         return new ResponseEntity<>(new RabbitPageDto(service.list()), HttpStatus.OK);
     }
 }

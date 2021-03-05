@@ -2,6 +2,7 @@ package com.leocr.backendstackdemo.redis.config;
 
 import lombok.Data;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,13 +25,14 @@ public class RedisConfiguration {
     private int port;
 
     @Bean
+    @NotNull
     JedisConnectionFactory jedisConnectionFactory() {
         final RedisStandaloneConfiguration clusterConfig = new RedisStandaloneConfiguration(hostName, port);
         return new JedisConnectionFactory(clusterConfig);
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
+    public @NotNull RedisTemplate<String, Object> redisTemplate() {
         final RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
         return template;

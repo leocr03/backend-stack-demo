@@ -4,6 +4,8 @@ import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import com.leocr.backendstackdemo.rabbit.conf.RabbitConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class RabbitService {
         this.mongoMessageRepository = mongoMessageRepository;
     }
 
-    public String produce(Integer value) {
+    public String produce(@Nullable Integer value) {
         if (value != null) {
             final String message = value.toString();
             final String routingKey = rabbitConfig.getRoutingKey();
@@ -51,7 +53,7 @@ public class RabbitService {
 
     @Qualifier("receiveMessage")
     @RabbitListener(queues = "#{rabbitConfig.getQueue()}")
-    public void consume(String message) {
+    public void consume(@NotNull String message) {
         log.info(RABBIT_MQ_RECEIVED_MESSAGE, rabbitConfig.getExchange(),  rabbitConfig.getRoutingKey(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);

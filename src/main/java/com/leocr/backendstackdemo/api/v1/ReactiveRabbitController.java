@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class ReactiveRabbitController {
                     })
     })
     @GetMapping(value = "/messages", produces = "application/json")
-    public Flux<RabbitPageDto> list() {
+    public @NotNull Flux<RabbitPageDto> list() {
         return Flux.just(new RabbitPageDto(rabbitService.list()));
     }
 }
