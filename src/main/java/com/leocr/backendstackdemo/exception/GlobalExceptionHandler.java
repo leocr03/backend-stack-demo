@@ -1,7 +1,6 @@
 package com.leocr.backendstackdemo.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,34 +9,50 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.Instant;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@ControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final String STATUS = "status";
-    private static final String MESSAGE = "message";
-    private static final String TIMESTAMP = "timestamp";
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Object> handleInvalidArguments(Exception ex, WebRequest request) {
-        return getExceptionResponseEntity(ex, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        final String name = ex.getName();
+        final String type = Objects.requireNonNull(ex.getRequiredType()).getSimpleName();
+        final String message = String.format("[%s] should be of type [%s].", name, type);
+        final List<String> errors = new ArrayList<>() {{
+            add(ex.getMessage());
+        }};
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message, ex.getClass().getSimpleName(), errors);
+        return getExceptionResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+        final List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "
+                    + violation.getMessage());
+        }
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(),
+                ex.getClass().getSimpleName(), errors);
+        return getExceptionResponseEntity(apiError);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        return getExceptionResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        final List<String> errors = new ArrayList<>();
+        final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(),
+                ex.getClass().getSimpleName(), errors);
+        return getExceptionResponseEntity(apiError);
     }
 
-    @NotNull
-    private ResponseEntity<Object> getExceptionResponseEntity(Exception ex, HttpStatus httpStatus) {
-        final Map<String, Object> body = new LinkedHashMap<>();
-        body.put(TIMESTAMP, Instant.now());
-        body.put(STATUS, httpStatus.value());
-        body.put(MESSAGE, ex.getMessage());
-        return new ResponseEntity<>(body, httpStatus);
+    private ResponseEntity<Object> getExceptionResponseEntity(ApiError apiError) {
+        final HttpStatus httpStatus = apiError.getStatus();
+        return new ResponseEntity<>(apiError, httpStatus);
     }
 }

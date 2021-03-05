@@ -10,9 +10,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Validated
 @Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/rabbit", produces = APPLICATION_JSON_VALUE)
@@ -46,7 +49,7 @@ public class RabbitController {
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}")
-    public ResponseEntity<RabbitDto> produce(@PathVariable Integer value) {
+    public ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
         ResponseEntity<RabbitDto> response;
 
         try {

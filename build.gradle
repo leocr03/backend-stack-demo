@@ -40,6 +40,7 @@ dependencies {
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.4'
 	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.24'
 	implementation group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.1.Final'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.3'
 }
 
 test {

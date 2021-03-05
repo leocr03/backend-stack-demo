@@ -10,9 +10,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping(value = "/api/v1/kafka", produces = APPLICATION_JSON_VALUE)
 public class KafkaController {
@@ -45,8 +48,9 @@ public class KafkaController {
                     }),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
-    @GetMapping(value = "/message/{value}") // Ideally it should be POST
-    public ResponseEntity<KafkaDto> produce(@PathVariable Integer value) {
+    @GetMapping(value = "/message/{value}") // it Kept as GET in order to facilitate tests
+    public ResponseEntity<KafkaDto> produce(
+            @PathVariable(name = "value") @Range(min = 1, max = 99999) Integer value) {
         ResponseEntity<KafkaDto> response;
 
         try {
@@ -54,7 +58,7 @@ public class KafkaController {
             final KafkaDto dto = new KafkaDto(valueProduced, VALUE_PRODUCED_TO_KAFKA + value);
             log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
             response = new ResponseEntity<>(dto, HttpStatus.OK);
-        } catch(IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             log.warn("Invalid parameter.", ex);
             response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

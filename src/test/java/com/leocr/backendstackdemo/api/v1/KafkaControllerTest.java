@@ -37,7 +37,7 @@ class KafkaControllerTest {
 
     @Test
     void kafkaProduce() {
-        final int value = 5;
+        final Integer value = 5;
         when(kafkaService.produce(any())).thenReturn("5");
 
         final ResponseEntity<KafkaDto> response = controller.produce(value);
