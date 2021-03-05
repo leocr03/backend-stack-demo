@@ -10,6 +10,6 @@ class BackendStackDemoApplicationTests {
 
 	@Test
 	@Timeout(5)
-	void contextLoads() throws InterruptedException {
+	void contextLoads() {
 	}
 }

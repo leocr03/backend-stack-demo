@@ -12,13 +12,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,7 +70,7 @@ class KafkaServiceTest {
 
     @Test
     void list() {
-        when(redisMessageRepository.findAll()).thenReturn(new ArrayList<Message>() {{
+        when(redisMessageRepository.findAll()).thenReturn(new ArrayList<>() {{
             add(new Message(1));
             add(new Message(2));
             add(new Message(3));
