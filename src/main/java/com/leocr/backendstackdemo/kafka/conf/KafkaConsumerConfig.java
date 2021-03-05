@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.jetbrains.annotations.NotNull;
@@ -18,19 +19,19 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    private final KafkaTopicConfig kafkaTopicConfig;
+    private final ConfigurationProperties config;
 
     @Autowired
-    public KafkaConsumerConfig(KafkaTopicConfig kafkaTopicConfig) {
-        this.kafkaTopicConfig = kafkaTopicConfig;
+    public KafkaConsumerConfig(ConfigurationProperties config) {
+        this.config = config;
     }
 
     @Bean
     public @NotNull ConsumerFactory<String, String> consumerFactory() {
         final Map<String, Object> props = new HashMap<>();
-        final String bootstrapAddress = kafkaTopicConfig.getBootstrapAddress();
+        final String bootstrapAddress = config.getKafkaTopicBootstrapAddress();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaTopicConfig.getGroupId());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getKafkaTopicGroupId());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);

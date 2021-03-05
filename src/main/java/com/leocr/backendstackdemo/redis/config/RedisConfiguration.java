@@ -1,9 +1,9 @@
 package com.leocr.backendstackdemo.redis.config;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import lombok.Data;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -16,18 +16,18 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @Configuration
 public class RedisConfiguration {
 
-    @Getter
-    @Value(value = "${redis.host.name}")
-    private String hostName;
+    private final ConfigurationProperties config;
 
-    @Getter
-    @Value(value = "${redis.port}")
-    private int port;
+    @Autowired
+    public RedisConfiguration(ConfigurationProperties config) {
+        this.config = config;
+    }
 
     @Bean
     @NotNull
     JedisConnectionFactory jedisConnectionFactory() {
-        final RedisStandaloneConfiguration clusterConfig = new RedisStandaloneConfiguration(hostName, port);
+        final RedisStandaloneConfiguration clusterConfig = new RedisStandaloneConfiguration(config.getRedisHostName(),
+                config.getRedisPort());
         return new JedisConnectionFactory(clusterConfig);
     }
 

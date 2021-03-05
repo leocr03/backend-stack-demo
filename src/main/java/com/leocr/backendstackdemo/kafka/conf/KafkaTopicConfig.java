@@ -1,11 +1,11 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import lombok.Data;
-import lombok.Getter;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -17,35 +17,23 @@ import java.util.Map;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Getter
-    @Value(value = "${kafka.topic.first.bootstrap.address}")
-    private String bootstrapAddress;
+    private ConfigurationProperties config;
 
-    @Getter
-    @Value(value = "${kafka.topic.first.topic.name}")
-    private String topicName;
-
-    @Getter
-    @Value(value = "${kafka.topic.first.group.id.first}")
-    private String groupId;
-
-    @Getter
-    @Value(value = "${kafka.topic.first.num.partitions}")
-    private Integer numPartitions;
-
-    @Getter
-    @Value(value = "${kafka.topic.first.replication.factor}")
-    private Integer replicationFactor;
+    @Autowired
+    public KafkaTopicConfig(ConfigurationProperties config) {
+        this.config = config;
+    }
 
     @Bean
     public @NotNull KafkaAdmin kafkaAdmin() {
         final Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaTopicBootstrapAddress());
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public @NotNull NewTopic getTopic() {
-        return new NewTopic(topicName, numPartitions, replicationFactor.shortValue());
+        return new NewTopic(config.getKafkaTopicName(), config.getKafkaTopicNumPartitions(),
+                config.getKafkaTopicReplicationFactor().shortValue());
     }
 }

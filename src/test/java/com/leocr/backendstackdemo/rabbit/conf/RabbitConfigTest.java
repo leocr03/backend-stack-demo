@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.rabbit.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,16 +27,16 @@ class RabbitConfigTest {
     private RabbitConfig config;
 
     @Mock
-    private RabbitPropertiesConfig rabbitPropertiesConfig;
+    private ConfigurationProperties configProperties;
 
     @BeforeEach
     void setUp() {
-        config = new RabbitConfig(rabbitPropertiesConfig);
+        config = new RabbitConfig(configProperties);
     }
 
     @Test
     void queue() {
-        when(rabbitPropertiesConfig.getQueue()).thenReturn("someQueue");
+        when(configProperties.getRabbitQueue()).thenReturn("someQueue");
 
         final Queue queue = config.queue();
 
@@ -64,7 +65,7 @@ class RabbitConfigTest {
     void container() {
         final ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
         final MessageListenerAdapter listenerAdapter = mock(MessageListenerAdapter.class);
-        when(rabbitPropertiesConfig.getQueue()).thenReturn("someQueue");
+        when(configProperties.getRabbitQueue()).thenReturn("someQueue");
 
         final SimpleMessageListenerContainer container = config.container(connectionFactory, listenerAdapter);
 
@@ -73,7 +74,7 @@ class RabbitConfigTest {
 
     @Test
     void connectionFactory() {
-        when(rabbitPropertiesConfig.getPort()).thenReturn(1000);
+        when(configProperties.getRabbitPort()).thenReturn(1000);
         final ConnectionFactory connectionFactory = config.connectionFactory();
         assertNotNull(connectionFactory);
     }
@@ -87,7 +88,7 @@ class RabbitConfigTest {
 
     @Test
     void rabbitAdmin() {
-        when(rabbitPropertiesConfig.getPort()).thenReturn(5672);
+        when(configProperties.getRabbitPort()).thenReturn(5672);
         final RabbitAdmin rabbitAdmin = config.rabbitAdmin();
         assertNotNull(rabbitAdmin);
     }

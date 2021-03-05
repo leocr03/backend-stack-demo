@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.rabbit.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.amqp.core.Binding;
@@ -20,29 +21,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    private RabbitPropertiesConfig rabbitPropertiesConfig;
+    private final ConfigurationProperties configurationProperties;
 
     @Autowired
-    public RabbitConfig(RabbitPropertiesConfig rabbitPropertiesConfig) {
-        this.rabbitPropertiesConfig = rabbitPropertiesConfig;
+    public RabbitConfig(ConfigurationProperties configurationProperties) {
+        this.configurationProperties = configurationProperties;
     }
 
     @Bean
     @NotNull
     Queue queue() {
-        return new Queue(rabbitPropertiesConfig.getQueue(), false, false, false);
+        return new Queue(configurationProperties.getRabbitQueue(), false, false, false);
     }
 
     @Bean
     @NotNull
     TopicExchange exchange() {
-        return new TopicExchange(rabbitPropertiesConfig.getExchange());
+        return new TopicExchange(configurationProperties.getRabbitExchange());
     }
 
     @Bean
     @NotNull
     Binding binding(@NotNull Queue queue, @NotNull TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(rabbitPropertiesConfig.getRoutingKey());
+        return BindingBuilder.bind(queue).to(exchange).with(configurationProperties.getRabbitRoutingKey());
     }
 
     @Bean
@@ -51,7 +52,7 @@ public class RabbitConfig {
                                              @NotNull MessageListenerAdapter listenerAdapter) {
         final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(rabbitPropertiesConfig.getQueue());
+        container.setQueueNames(configurationProperties.getRabbitQueue());
         container.setMessageListener(listenerAdapter);
         return container;
     }
@@ -59,14 +60,14 @@ public class RabbitConfig {
     @Bean
     public @NotNull ConnectionFactory connectionFactory() {
         System.out.printf("Starting RabbitMQ connection factory. host=[%s], port=[%s], username=[%s]\n",
-                rabbitPropertiesConfig.getHost(), rabbitPropertiesConfig.getPort(),
-                rabbitPropertiesConfig.getUsername());
+                configurationProperties.getRabbitHost(), configurationProperties.getRabbitPort(),
+                configurationProperties.getRabbitUsername());
         final CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setHost(rabbitPropertiesConfig.getHost());
-        connectionFactory.setPort(rabbitPropertiesConfig.getPort());
-        connectionFactory.setUsername(rabbitPropertiesConfig.getUsername());
-        connectionFactory.setPassword(rabbitPropertiesConfig.getPassword());
-        connectionFactory.setVirtualHost(rabbitPropertiesConfig.getVirtualHost());
+        connectionFactory.setHost(configurationProperties.getRabbitHost());
+        connectionFactory.setPort(configurationProperties.getRabbitPort());
+        connectionFactory.setUsername(configurationProperties.getRabbitUsername());
+        connectionFactory.setPassword(configurationProperties.getRabbitPassword());
+        connectionFactory.setVirtualHost(configurationProperties.getRabbitVirtualHost());
         return connectionFactory;
     }
 

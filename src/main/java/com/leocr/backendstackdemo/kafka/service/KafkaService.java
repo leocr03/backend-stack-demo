@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.kafka.service;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.common.model.Message;
-import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -29,41 +29,42 @@ public class KafkaService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    private final KafkaTopicConfig kafkaTopicConfig;
+    private final ConfigurationProperties configurationProperties;
 
-    protected final RedisMessageRepository redisMessageRepository;
+    private final RedisMessageRepository repository;
 
     @Autowired
-    public KafkaService(KafkaTemplate<String, String> kafkaTemplate, KafkaTopicConfig kafkaTopicConfig,
-                        RedisMessageRepository redisMessageRepository) {
+    public KafkaService(KafkaTemplate<String, String> kafkaTemplate, ConfigurationProperties configurationProperties,
+                        RedisMessageRepository repository) {
         this.kafkaTemplate = kafkaTemplate;
-        this.kafkaTopicConfig = kafkaTopicConfig;
-        this.redisMessageRepository = redisMessageRepository;
+        this.configurationProperties = configurationProperties;
+        this.repository = repository;
     }
 
     public String produce(@Nullable Integer value) {
         if (value != null) {
-            final String topicName = kafkaTopicConfig.getTopicName();
-            kafkaTemplate.send(topicName, String.valueOf(value));
-            return String.valueOf(value);
+            final String topicName = configurationProperties.getKafkaTopicName();
+            final String valueStr = String.valueOf(value);
+            kafkaTemplate.send(topicName, valueStr);
+            return valueStr;
         } else {
             throw new IllegalArgumentException(ARGUMENT_VALUE_CANNOT_BE_NULL);
         }
     }
 
-    @KafkaListener(topics = "#{kafkaTopicConfig.getTopicName()}", groupId = "#{kafkaTopicConfig.getGroupId()}")
+    @KafkaListener(topics = "#{configurationProperties.getKafkaTopicName()}",
+            groupId = "#{configurationProperties.getKafkaTopicGroupId()}")
     public @NotNull String consume(@NotNull String message) {
-        log.info(KAFKA_RECEIVED_MESSAGE,  kafkaTopicConfig.getGroupId(),
-                kafkaTopicConfig.getTopicName(), message);
+        log.info(KAFKA_RECEIVED_MESSAGE, configurationProperties.getKafkaTopicGroupId(), configurationProperties.getKafkaTopicName(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
-        redisMessageRepository.save(msg);
+        repository.save(msg);
         log.info(KAFKA_MESSAGE_SAVED_ON_REDIS, message);
         return message;
     }
 
     public Set<String> list() {
-        final Iterable<Message> messages = redisMessageRepository.findAll();
+        final Iterable<Message> messages = repository.findAll();
         return StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(messages.iterator(), Spliterator.NONNULL), false)
                 .sorted(Comparator.comparing(Message::getCreatedAt))

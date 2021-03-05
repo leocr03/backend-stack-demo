@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.rabbit.service;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
-import com.leocr.backendstackdemo.rabbit.conf.RabbitPropertiesConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,21 +27,21 @@ class RabbitServiceTest {
     private RabbitTemplate rabbitTemplate;
 
     @Mock
-    private RabbitPropertiesConfig rabbitPropertiesConfig;
+    private ConfigurationProperties configurationProperties;
 
     @Mock
     private MongoMessageRepository mongoMessageRepository;
 
     @BeforeEach
     void setUp() {
-        service = new RabbitService(rabbitTemplate, rabbitPropertiesConfig, mongoMessageRepository);
+        service = new RabbitService(rabbitTemplate, configurationProperties, mongoMessageRepository);
     }
 
     @Test
     void produce() {
         final Integer value = 1;
-        when(rabbitPropertiesConfig.getRoutingKey()).thenReturn("someRoutingKey");
-        when(rabbitPropertiesConfig.getExchange()).thenReturn("someExchange");
+        when(configurationProperties.getRabbitRoutingKey()).thenReturn("someRoutingKey");
+        when(configurationProperties.getRabbitExchange()).thenReturn("someExchange");
 
         final String res = service.produce(value);
 

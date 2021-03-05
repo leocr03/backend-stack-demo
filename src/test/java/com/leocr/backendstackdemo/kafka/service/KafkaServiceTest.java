@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.kafka.service;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.common.model.Message;
-import com.leocr.backendstackdemo.kafka.conf.KafkaTopicConfig;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,20 +27,20 @@ class KafkaServiceTest {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Mock
-    private KafkaTopicConfig kafkaTopicConfig;
+    private ConfigurationProperties config;
 
     @Mock
     private RedisMessageRepository redisMessageRepository;
 
     @BeforeEach
     void setUp() {
-        service = new KafkaService(kafkaTemplate, kafkaTopicConfig, redisMessageRepository);
+        service = new KafkaService(kafkaTemplate, config, redisMessageRepository);
     }
 
     @Test
     void produce() {
         final Integer value = 5;
-        when(kafkaTopicConfig.getTopicName()).thenReturn("first");
+        when(config.getKafkaTopicName()).thenReturn("first");
 
         final String res = service.produce(value);
 
@@ -63,8 +63,8 @@ class KafkaServiceTest {
         final String result = service.consume(message);
 
         assertEquals("23", result);
-        verify(kafkaTopicConfig).getTopicName();
-        verify(kafkaTopicConfig).getGroupId();
+        verify(config).getKafkaTopicName();
+        verify(config).getKafkaTopicGroupId();
         verify(redisMessageRepository).save(any(Message.class));
     }
 

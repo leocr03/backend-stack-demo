@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,8 +14,8 @@ class KafkaProducerConfigTest {
 
     @BeforeEach
     void setUp() {
-        final KafkaTopicConfig kafkaTopicConfig = new KafkaTopicConfig();
-        config = new KafkaProducerConfig(kafkaTopicConfig);
+        final ConfigurationProperties configProperties = new ConfigurationProperties();
+        config = new KafkaProducerConfig(configProperties);
     }
 
     @Test

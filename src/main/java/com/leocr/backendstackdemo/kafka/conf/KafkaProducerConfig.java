@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -16,17 +17,17 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    private final KafkaTopicConfig kafkaTopicConfig;
+    private final ConfigurationProperties config;
 
     @Autowired
-    public KafkaProducerConfig(KafkaTopicConfig kafkaTopicConfig) {
-        this.kafkaTopicConfig = kafkaTopicConfig;
+    public KafkaProducerConfig(ConfigurationProperties config) {
+        this.config = config;
     }
 
     @Bean
     public @NotNull ProducerFactory<String, String> producerFactory() {
         final Map<String, Object> configProps = new HashMap<>();
-        final String bootstrapAddress = kafkaTopicConfig.getBootstrapAddress();
+        final String bootstrapAddress = config.getKafkaTopicBootstrapAddress();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

@@ -1,11 +1,12 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
+import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class KafkaConsumerConfigTest {
 
@@ -13,8 +14,8 @@ class KafkaConsumerConfigTest {
 
     @BeforeEach
     void setUp() {
-        final KafkaTopicConfig kafkaTopicConfig = new KafkaTopicConfig();
-        config = new KafkaConsumerConfig(kafkaTopicConfig);
+        final ConfigurationProperties configProperties = new ConfigurationProperties();
+        config = new KafkaConsumerConfig(configProperties);
     }
 
     @Test
