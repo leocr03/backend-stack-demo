@@ -1,4 +1,4 @@
-package com.leocr.backendstackdemo.exception;
+package com.leocr.backendstackdemo.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,8 @@ import java.util.Objects;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public @NotNull ResponseEntity<Object> handleMethodArgumentTypeMismatchException(@NotNull MethodArgumentTypeMismatchException ex) {
+    public @NotNull ResponseEntity<Object> handleMethodArgumentTypeMismatchException(
+            @NotNull MethodArgumentTypeMismatchException ex) {
         final String name = ex.getName();
         final String type = Objects.requireNonNull(ex.getRequiredType()).getSimpleName();
         final String message = String.format("[%s] should be of type [%s].", name, type);
@@ -33,7 +34,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public @NotNull ResponseEntity<Object> handleConstraintViolationException(@NotNull ConstraintViolationException ex) {
+    public @NotNull ResponseEntity<Object> handleConstraintViolationException(
+            @NotNull ConstraintViolationException ex) {
         final List<String> errors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "

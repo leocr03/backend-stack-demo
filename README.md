@@ -139,8 +139,6 @@ To run the stack:
 
 * Support to Java 15 (fix issue with JaCoco)
 
-* Transaction Management
-
 * Authentication
 
 * Security

@@ -10,14 +10,17 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.StreamSupport;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 @Service
+@Transactional
 public class RabbitService {
 
     private static final String ARGUMENT_VALUE_CANNOT_BE_NULL = "Argument \"value\" cannot be null.";
@@ -62,8 +65,7 @@ public class RabbitService {
 
     public Set<String> list() {
         final List<Message> messages = repository.findAll();
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(messages.iterator(), Spliterator.NONNULL), false)
+        return messages.stream()
                 .sorted(Comparator.comparing(Message::getCreatedAt))
                 .map(Message::getValue)
                 .map(Object::toString)

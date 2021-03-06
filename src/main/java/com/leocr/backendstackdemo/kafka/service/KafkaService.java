@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -21,6 +22,7 @@ import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 @Service
+@Transactional
 public class KafkaService {
 
     private static final String KAFKA_RECEIVED_MESSAGE = "[Kafka][{}][{}] Received Message: {}";
