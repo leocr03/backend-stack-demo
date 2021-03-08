@@ -2,6 +2,7 @@ package com.leocr.backendstackdemo.kafka.service;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.kafka.service.impl.KafkaServiceImpl;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class KafkaServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new KafkaService(kafkaTemplate, config, redisMessageRepository);
+        service = new KafkaServiceImpl(kafkaTemplate, config, redisMessageRepository);
     }
 
     @Test
@@ -46,14 +47,6 @@ class KafkaServiceTest {
 
         verify(kafkaTemplate).send(eq("first"), eq("5"));
         assertEquals("5", res);
-    }
-
-    @Test
-    void produceNullValueShouldThrowException() {
-        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> service.produce(null), "Expected to throw, but it didn't");
-        assertTrue(ex.getMessage().contains("Argument \"value\" cannot be null."));
-        verify(kafkaTemplate, never()).send(any(), any());
     }
 
     @Test

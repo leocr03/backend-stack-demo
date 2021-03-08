@@ -1,6 +1,7 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,9 @@ public class KafkaProducerConfig {
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.RETRIES_CONFIG, "3");
+        configProps.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 15_000);
+        configProps.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1_000);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 

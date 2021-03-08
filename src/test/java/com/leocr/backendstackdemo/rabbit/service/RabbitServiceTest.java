@@ -3,6 +3,7 @@ package com.leocr.backendstackdemo.rabbit.service;
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
 import com.leocr.backendstackdemo.common.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
+import com.leocr.backendstackdemo.rabbit.service.impl.RabbitServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,7 @@ class RabbitServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new RabbitService(rabbitTemplate, configurationProperties, mongoMessageRepository);
+        service = new RabbitServiceImpl(rabbitTemplate, configurationProperties, mongoMessageRepository);
     }
 
     @Test
@@ -47,14 +48,6 @@ class RabbitServiceTest {
 
         verify(rabbitTemplate).convertAndSend(anyString(), anyString(), anyString());
         assertEquals("1", res);
-    }
-
-    @Test
-    void produceNullValueShouldThrowException() {
-        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> service.produce(null), "Expected to throw, but it didn't");
-        assertTrue(ex.getMessage().contains("Argument \"value\" cannot be null."));
-        verify(rabbitTemplate, never()).send(any(), any());
     }
 
     @Test

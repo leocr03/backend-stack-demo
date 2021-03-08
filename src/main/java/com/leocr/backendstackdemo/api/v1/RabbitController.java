@@ -29,7 +29,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/api/v1/rabbit", produces = APPLICATION_JSON_VALUE)
 public class RabbitController {
 
-    private static final String KAFKA_VALUE_WAS_PRODUCED_DTO = "Kafka value was produced. dto={}";
+    private static final String RABBIT_VALUE_WAS_PRODUCED_DTO = "Rabbit value was produced. dto={}";
     private static final String VALUE_PRODUCED_TO_RABBIT_MQ = "Value produced to RabbitMQ: ";
 
     private final RabbitService service;
@@ -53,7 +53,7 @@ public class RabbitController {
     public @NotNull ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
         final String valueProduced = service.produce(value);
         final RabbitDto dto = new RabbitDto(valueProduced, VALUE_PRODUCED_TO_RABBIT_MQ + value);
-        log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
+        log.info(RABBIT_VALUE_WAS_PRODUCED_DTO, dto);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

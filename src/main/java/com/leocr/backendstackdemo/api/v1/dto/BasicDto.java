@@ -1,6 +1,7 @@
 package com.leocr.backendstackdemo.api.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 @EqualsAndHashCode
 public abstract class BasicDto {
 

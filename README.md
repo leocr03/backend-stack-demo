@@ -131,19 +131,17 @@ To run the stack:
     * Build and start stack to see the API specification
 
     * Access here: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-    
+
 
 ## Future Work
-
-* Database migration tool for Mongo
-
-* Support to Java 15 (fix issue with JaCoco)
 
 * Authentication
 
 * Security
 
 * More of Spring WebFlux
+
+* Support to Java 15 (fix issue with JaCoco)
 
 
 ## References

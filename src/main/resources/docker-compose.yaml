@@ -85,8 +85,8 @@ services:
 
   backend-stack-demo:
     build:
-      context: ../../../..
-      dockerfile: Dockerfile
+      context: ../../..
+      dockerfile: ./Dockerfile
     image: leocr/backend-stack-demo:latest
     container_name: backend-stack-demo
     environment:
