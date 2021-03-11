@@ -74,7 +74,7 @@ To run the stack:
 
 * [http://localhost:19000](http://localhost:19000): access KafkaDrop
 
-![kafka-1](https://i.imgur.com/HZ96xjz.png)
+![kafka-1](https://i.imgur.com/GG9PJBS.png)
 
 ![kafka-2](https://i.imgur.com/9z5fAeX.png)
 
@@ -94,7 +94,7 @@ To run the stack:
 
 * [http://localhost:15672](http://localhost:15672): access RabbitMQ Management (guest / guest)
 
-![rabbit-1](https://i.imgur.com/DUiDSlo.png)
+![rabbit-1](https://i.imgur.com/jDd2GtZ.png)
 
 ![rabbit-2](https://i.imgur.com/UVqPOWX.png)
 
