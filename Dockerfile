@@ -1,5 +1,5 @@
-# FROM openjdk:17-oraclelinux8 // to debug using more complete Linux commands, enable this and comment "FROM openjdk:17"
-FROM openjdk:17
+FROM openjdk:17-oraclelinux8
+#FROM openjdk:17
 ENV PATH="/usr/sbin:${PATH}"
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar

@@ -9,10 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.Collection;
 import java.util.Collections;
 
+@EnableMongoRepositories(basePackages = "com.leocr.backendstackdemo.mongo.repo")
 @Configuration
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
 

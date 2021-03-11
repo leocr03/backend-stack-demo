@@ -1,4 +1,4 @@
-package com.leocr.backendstackdemo.common.model;
+package com.leocr.backendstackdemo.mongo.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -30,7 +30,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class KafkaController {
 
     private static final String KAFKA_VALUE_WAS_PRODUCED_DTO = "Kafka value was produced. dto={}";
-    private static final String VALUE_PRODUCED_TO_KAFKA = "Value produced to Kafka: ";
+    public static final String VALUE_PRODUCED_TO_KAFKA = "Value produced to Kafka: %s";
 
     private final KafkaService service;
 
@@ -52,8 +52,10 @@ public class KafkaController {
     public @NotNull ResponseEntity<KafkaDto> produce(
             @PathVariable(name = "value") @Range(min = 1, max = 99999) Integer value) {
         final String valueProduced = service.produce(value);
-        final KafkaDto dto = new KafkaDto(valueProduced, VALUE_PRODUCED_TO_KAFKA + value);
+        final KafkaDto dto = new KafkaDto(valueProduced, String.format(VALUE_PRODUCED_TO_KAFKA, value));
         log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
+        log.info("value={}", dto.getValue());
+        log.info("message={}", dto.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

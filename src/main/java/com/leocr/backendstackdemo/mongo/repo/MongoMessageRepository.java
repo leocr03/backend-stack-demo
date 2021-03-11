@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.mongo.repo;
 
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.mongo.model.Message;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

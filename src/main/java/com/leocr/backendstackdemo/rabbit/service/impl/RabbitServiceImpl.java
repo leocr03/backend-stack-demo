@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.rabbit.service.impl;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.mongo.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import lombok.extern.slf4j.Slf4j;

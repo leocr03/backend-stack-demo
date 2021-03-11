@@ -8,7 +8,9 @@ group = "com.leocr"
 version = "0.0.1-SNAPSHOT"
 
 ext {
+	//noinspection GroovyAssignabilityCheck
 	junitJupiterVersion = "5.7.1"
+	//noinspection GroovyAssignabilityCheck
 	testContainersVersion = "1.15.2"
 }
 
@@ -42,8 +44,8 @@ dependencies {
 	implementation group: "org.springdoc", name: "springdoc-openapi-ui", version: "1.5.4"
 	implementation group: "io.swagger", name: "swagger-annotations", version: "1.5.24"
 	implementation group: "org.hibernate", name: "hibernate-validator", version: "7.0.1.Final"
-	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-	implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '3.0.1'
+	implementation group: "org.apache.httpcomponents", name: "httpclient", version: "4.5.13"
+	implementation group: "org.glassfish.jersey.media", name: "jersey-media-json-jackson", version: "3.0.1"
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 	testImplementation "io.projectreactor:reactor-test"
 	testImplementation "org.springframework.amqp:spring-rabbit-test"

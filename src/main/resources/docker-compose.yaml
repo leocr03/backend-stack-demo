@@ -22,10 +22,11 @@ services:
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TOPIC_FIRST_TOPIC_NAME=topicFirst
     healthcheck:
       test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server 127.0.0.1:9092 --topic $KAFKA_TOPIC_FIRST_TOPIC_NAME --describe"]
-      interval: 2s
-      timeout: 2s
+      interval: 3s
+      timeout: 15s
       retries: 15
     networks:
       - backend-stack-demo-network
@@ -66,7 +67,7 @@ services:
       test: rabbitmq-diagnostics -q ping
       interval: 15s
       timeout: 30s
-      retries: 6
+      retries: 15
     networks:
       - backend-stack-demo-network
 
@@ -92,6 +93,7 @@ services:
     environment:
       - KAFKA_TOPIC_FIRST_BOOTSTRAP_ADDRESS=kafka:9092
       - RABBIT_HOST=rabbit
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017/test
     ports:
       - 8080:8080
     volumes:
@@ -105,7 +107,6 @@ services:
       - kafka
       - redis
       - mongo
-    command: ["curl", "-f", "http://rabbit:5672"]
 
 networks:
   backend-stack-demo-network:
