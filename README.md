@@ -35,7 +35,7 @@ So far, we have these items:
 
 ## Requirements
 
-* JDK: 11
+* JDK: > 11
 * Gradle: > 6.8.2
     * Tip: you can use [sdkman](http://sdkman.io/) to install Java and Gradle (it's easy to manage a different version)
 * Docker: > 20.10.3
@@ -56,7 +56,7 @@ To compile the project:
 
 To run the stack:
 
-* Enter the folder: ```src/main/resources/docker```
+* Enter the folder: ```src/main/resources```
 
 * Run docker-compose to start: ```docker-compose -f docker-compose.yaml up --build```
 
@@ -140,8 +140,6 @@ To run the stack:
 * Security
 
 * More of Spring WebFlux
-
-* Support to Java 15 (fix issue with JaCoco)
 
 
 ## References

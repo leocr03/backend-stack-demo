@@ -6,7 +6,6 @@ import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import com.leocr.backendstackdemo.rabbit.service.RabbitService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import static java.util.stream.Collectors.toSet;
 @Transactional
 public class RabbitServiceImpl implements RabbitService {
 
-    private static final String ARGUMENT_VALUE_CANNOT_BE_NULL = "Argument \"value\" cannot be null.";
     private static final String RABBIT_MQ_RECEIVED_MESSAGE = "[RabbitMQ][{}][{}] Received Message: {}}\n";
     private static final String RABBIT_MQ_MESSAGE_SAVED_ON_REDIS = "[RabbitMQ] Message saved on Redis: {}";
 
@@ -46,16 +44,12 @@ public class RabbitServiceImpl implements RabbitService {
      * {@inheritDoc}
      */
     @Override
-    public @NotNull String produce(@Nullable Integer value) {
-        if (value != null) {
-            final String message = value.toString();
-            final String routingKey = configurationProperties.getRabbitRoutingKey();
-            final String exchange = configurationProperties.getRabbitExchange();
-            rabbitTemplate.convertAndSend(exchange, routingKey, message);
-            return String.valueOf(value);
-        } else {
-            throw new IllegalArgumentException(ARGUMENT_VALUE_CANNOT_BE_NULL);
-        }
+    public @NotNull String produce(@NotNull Integer value) {
+        final String message = value.toString();
+        final String routingKey = configurationProperties.getRabbitRoutingKey();
+        final String exchange = configurationProperties.getRabbitExchange();
+        rabbitTemplate.convertAndSend(exchange, routingKey, message);
+        return String.valueOf(value);
     }
 
     /**

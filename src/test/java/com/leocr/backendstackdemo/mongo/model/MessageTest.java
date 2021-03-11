@@ -16,13 +16,6 @@ class MessageTest {
     }
 
     @Test
-    void testEquals() {
-        final Message anotherMessage = new Message(5);
-        final boolean equals = message.equals(anotherMessage);
-        assertTrue(equals);
-    }
-
-    @Test
     void testEqualsSameReference() {
         //noinspection EqualsWithItself
         final boolean equals = message.equals(message);
@@ -51,11 +44,5 @@ class MessageTest {
         final boolean equals = message.equals(null);
         //noinspection ConstantConditions
         assertFalse(equals);
-    }
-
-    @Test
-    void testHashCode() {
-        final int hashCode = message.hashCode();
-        assertEquals(36, hashCode);
     }
 }
