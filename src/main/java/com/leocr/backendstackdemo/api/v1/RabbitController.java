@@ -50,7 +50,7 @@ public class RabbitController {
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}")
-    public @NotNull ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) Integer value) {
+    public @NotNull ResponseEntity<RabbitDto> produce(@PathVariable @Range(min = 1, max = 99999) @NotNull Integer value) {
         final String valueProduced = service.produce(value);
         final RabbitDto dto = new RabbitDto(valueProduced, VALUE_PRODUCED_TO_RABBIT_MQ + value);
         log.info(RABBIT_VALUE_WAS_PRODUCED_DTO, dto);

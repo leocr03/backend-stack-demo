@@ -1,7 +1,7 @@
 package integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leocr.backendstackdemo.api.v1.dto.KafkaDto;
+import com.leocr.backendstackdemo.api.v1.dto.RabbitDto;
 import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -23,10 +23,11 @@ import java.util.Arrays;
 
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles("integration-test")
 @Testcontainers
-public class RabbitControllerIT {
+public class ReactiveRabbitControllerIT {
 
     public final static DockerComposeContainer<?> environment =
             new DockerComposeContainer<>(new File("src/test/resources/docker-compose-integration.yaml"))
@@ -44,23 +45,27 @@ public class RabbitControllerIT {
     }
 
     @Test
-    public void testProduceConsumeAndList() throws IOException, InterruptedException {
+    public void testReactiveRabbitList() throws IOException, InterruptedException {
         sendMessage("10");
         sendMessage("11");
         sendMessage("12");
 
-        Thread.sleep(Duration.ofSeconds(10).toMillis());
+        Thread.sleep(Duration.ofSeconds(60).toMillis());
 
-        final String uriList = "http://localhost:8080/api/v1/rabbit/messages";
+        final String uriList = "http://localhost:8080/api/v1/reactive/rabbit/messages";
         final HttpUriRequest request = new HttpGet(uriList);
 
         final HttpResponse listResponse = HttpClientBuilder.create().build().execute(request);
 
         assertEquals(HttpStatus.SC_OK, listResponse.getStatusLine().getStatusCode());
         final ObjectMapper objectMapper = new ObjectMapper();
-        final RabbitPageDto result = objectMapper.readValue(listResponse.getEntity().getContent(), RabbitPageDto.class);
-        final RabbitPageDto expected = new RabbitPageDto(Arrays.stream(new String[]{"10", "11", "12"}).collect(toSet()));
-        assertEquals(expected, result);
+        final RabbitPageDto[] dto =
+                objectMapper.readValue(listResponse.getEntity().getContent(), RabbitPageDto[].class);
+        final RabbitPageDto[] expected =
+                { new RabbitPageDto(Arrays.stream(new String[]{"10", "11", "12"}).collect(toSet())) };
+        assertNotNull(dto);
+        assertEquals(1, dto.length);
+        assertEquals(expected[0], dto[0]);
     }
 
     private void sendMessage(String value) throws IOException {
@@ -68,8 +73,8 @@ public class RabbitControllerIT {
         final HttpUriRequest request = new HttpGet(uri);
         final HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
         final ObjectMapper objectMapper = new ObjectMapper();
-        final KafkaDto dto = objectMapper.readValue(httpResponse.getEntity().getContent(), KafkaDto.class);
-        final KafkaDto expected = new KafkaDto(value, "Value produced to RabbitMQ: " + value);
+        final RabbitDto dto = objectMapper.readValue(httpResponse.getEntity().getContent(), RabbitDto.class);
+        final RabbitDto expected = new RabbitDto(value, "Value produced to RabbitMQ: " + value);
         assertEquals(HttpStatus.SC_OK, httpResponse.getStatusLine().getStatusCode());
         assertEquals(expected, dto);
     }

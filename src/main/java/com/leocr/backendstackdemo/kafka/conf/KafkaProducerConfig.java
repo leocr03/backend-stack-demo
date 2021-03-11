@@ -1,7 +1,6 @@
 package com.leocr.backendstackdemo.kafka.conf;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.jetbrains.annotations.NotNull;

@@ -1,24 +1,14 @@
 package com.leocr.backendstackdemo.api.v1.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
-import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-@ToString
+@Data
+@ToString(callSuper = true)
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class KafkaPageDto extends BasicPageDto implements Serializable {
-
-    private final static long serialVersionUID = 1L;
-
-    @SuppressWarnings("unused")
-    public KafkaPageDto() {
-        super(new HashSet<>());
-    }
+public class KafkaPageDto extends BasicPageDto {
 
     public KafkaPageDto(Set<String> values) {
         super(values);

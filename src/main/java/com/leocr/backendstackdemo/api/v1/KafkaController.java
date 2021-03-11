@@ -50,7 +50,7 @@ public class KafkaController {
     })
     @GetMapping(value = "/message/{value}") // it Kept as GET in order to facilitate tests
     public @NotNull ResponseEntity<KafkaDto> produce(
-            @PathVariable(name = "value") @Range(min = 1, max = 99999) Integer value) {
+            @PathVariable(name = "value") @Range(min = 1, max = 99999) @NotNull Integer value) {
         final String valueProduced = service.produce(value);
         final KafkaDto dto = new KafkaDto(valueProduced, String.format(VALUE_PRODUCED_TO_KAFKA, value));
         log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);

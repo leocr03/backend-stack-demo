@@ -29,7 +29,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public Map<String, Object> consumerConfigs() {
+    public @NotNull Map<String, Object> consumerConfigs() {
         final Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getKafkaTopicBootstrapAddress());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getKafkaTopicGroupId());

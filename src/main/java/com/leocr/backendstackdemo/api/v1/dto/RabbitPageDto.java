@@ -1,9 +1,12 @@
 package com.leocr.backendstackdemo.api.v1.dto;
 
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.Set;
 
+@Data
+@ToString(callSuper = true)
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class RabbitPageDto extends BasicPageDto {
 

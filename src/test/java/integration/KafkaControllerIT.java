@@ -8,7 +8,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("integration-test")
 @Testcontainers
 public class KafkaControllerIT {
-    @ClassRule
-    public static DockerComposeContainer<?> environment =
+
+    public final static DockerComposeContainer<?> environment =
             new DockerComposeContainer<>(new File("src/test/resources/docker-compose-integration.yaml"))
                     .withExposedService("backend-stack-demo_1", 8080,
                             Wait.forHttp("/actuator/health").forStatusCode(200));
