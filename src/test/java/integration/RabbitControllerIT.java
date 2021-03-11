@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("integration-test")
 @Testcontainers
-public class KafkaControllerIT {
+public class RabbitControllerIT {
     @ClassRule
     public static DockerComposeContainer<?> environment =
             new DockerComposeContainer<>(new File("src/test/resources/docker-compose-integration.yaml"))
@@ -46,13 +46,13 @@ public class KafkaControllerIT {
 
     @Test
     public void testProduceConsumeAndList() throws IOException, InterruptedException {
-        sendMessage("1");
-        sendMessage("2");
-        sendMessage("3");
+        sendMessage("10");
+        sendMessage("11");
+        sendMessage("12");
 
         Thread.sleep(Duration.ofSeconds(5).toMillis());
 
-        final String uriList = "http://localhost:8080/api/v1/kafka/messages";
+        final String uriList = "http://localhost:8080/api/v1/rabbit/messages";
         final HttpUriRequest request = new HttpGet(uriList);
 
         final HttpResponse listResponse = HttpClientBuilder.create().build().execute(request);
@@ -60,17 +60,17 @@ public class KafkaControllerIT {
         assertEquals(HttpStatus.SC_OK, listResponse.getStatusLine().getStatusCode());
         final ObjectMapper objectMapper = new ObjectMapper();
         final KafkaPageDto result = objectMapper.readValue(listResponse.getEntity().getContent(), KafkaPageDto.class);
-        final KafkaPageDto expected = new KafkaPageDto(Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet()));
+        final KafkaPageDto expected = new KafkaPageDto(Arrays.stream(new String[]{"10", "11", "12"}).collect(toSet()));
         assertEquals(expected, result);
     }
 
     private void sendMessage(String value) throws IOException {
-        final String uri = String.format("http://localhost:8080/api/v1/kafka/message/%s", value);
+        final String uri = String.format("http://localhost:8080/api/v1/rabbit/message/%s", value);
         final HttpUriRequest request = new HttpGet(uri);
         final HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
         final ObjectMapper objectMapper = new ObjectMapper();
         final KafkaDto dto = objectMapper.readValue(httpResponse.getEntity().getContent(), KafkaDto.class);
-        final KafkaDto expected = new KafkaDto(value, "Value produced to Kafka: " + value);
+        final KafkaDto expected = new KafkaDto(value, "Value produced to RabbitMQ: " + value);
         assertEquals(HttpStatus.SC_OK, httpResponse.getStatusLine().getStatusCode());
         assertEquals(expected, dto);
     }
