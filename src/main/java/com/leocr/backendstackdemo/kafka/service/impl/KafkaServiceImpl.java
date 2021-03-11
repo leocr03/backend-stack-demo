@@ -59,13 +59,12 @@ public class KafkaServiceImpl implements KafkaService {
     @KafkaListener(topics = "#{configurationProperties.getKafkaTopicName()}",
             groupId = "#{configurationProperties.getKafkaTopicGroupId()}")
     @Override
-    public @NotNull String consume(@NotNull String message) {
+    public void consume(@NotNull String message) {
         log.info(KAFKA_RECEIVED_MESSAGE, configurationProperties.getKafkaTopicGroupId(), configurationProperties.getKafkaTopicName(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
         repository.save(msg);
         log.info(KAFKA_MESSAGE_SAVED_ON_REDIS, message);
-        return message;
     }
 
     /**

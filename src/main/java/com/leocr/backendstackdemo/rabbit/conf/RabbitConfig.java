@@ -68,6 +68,7 @@ public class RabbitConfig {
         connectionFactory.setUsername(configurationProperties.getRabbitUsername());
         connectionFactory.setPassword(configurationProperties.getRabbitPassword());
         connectionFactory.setVirtualHost(configurationProperties.getRabbitVirtualHost());
+        connectionFactory.afterPropertiesSet();
         return connectionFactory;
     }
 

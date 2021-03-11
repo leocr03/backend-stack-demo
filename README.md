@@ -5,28 +5,28 @@ This project provides examples of using the main Java technology stack needed by
 So far, we have these items:
 
 * *[Gradle](https://spring.io/guides/gs/gradle/)*
-    * Application is using gradle to be built.
+    * Is using gradle to be built.
 * *[Spring-Boot](https://spring.io/guides/gs/spring-boot/)*
-    * Application was created with Spring Boot using [Spring Initializr](https://start.spring.io/)
+    * Created with Spring Boot using [Spring Initializr](https://start.spring.io/)
 * *[Docker](https://www.docker.com/get-started)*
     * [Dockerfile](https://github.com/leocr03/backend-stack-demo/blob/main/Dockerfile) contains an example of the dockerization of an application (in this case *backend-stack-demo* application)
 * *[Docker-Compose](https://docs.docker.com/compose/)*
-    * [docker-compose.yaml](https://github.com/leocr03/backend-stack-demo/blob/main/src/main/resources/docker/docker-compose.yaml) contains an example of docker compose with all the applications needed.
+    * [docker-compose.yaml](https://github.com/leocr03/backend-stack-demo/blob/main/src/main/resources/docker-compose.yaml) contains an example of docker-compose with all the applications needed.
 * *Kafka ([Kafka](https://kafka.apache.org/documentation/) + [ZooKeeper](https://zookeeper.apache.org/) + [KafkaDrop](https://github.com/obsidiandynamics/kafdrop))*
     * It has been created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
-    * *KafkaDrop* in order to see the message queue
+    * *KafkaDrop* to see the message queue
 * *RabbitMQ ([RabbitMQ](https://www.rabbitmq.com/tutorials/tutorial-one-java.html) + [RabbitMQ Management](https://www.rabbitmq.com/management.html))*
     * It has been created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
-    * *RabbitMQ Management* in order to see the message queue
+    * *RabbitMQ Management* to see the message queue
 * *[Spring WebFlux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html#webflux)*
     * Just reusing some code and adapting to work with ```Mono``` and ```Flux```
-    * Common reactive programming functions (map, filter, etc.) is out of scope.
+    * Common reactive programming functions (map, filter, etc.) are out of scope.
 * *[Redis](https://redis.io/topics/quickstart)*
     * It's being used to save data consumed by Kafka
 * *[MongoDB](https://docs.mongodb.com/manual/tutorial/getting-started/)*
@@ -44,7 +44,7 @@ So far, we have these items:
 
 ## How to Use
 
-* Note: In order to run the tests easily, *GET* endpoints were created to produce a value.
+* Note: To run the tests easily, *GET* endpoints were created to produce a value.
 
 ### Build and Start Stack
 
@@ -52,7 +52,7 @@ To compile the project:
 
 * ```./gradlew clean build```
 
-    * Add ```-x test``` argument to build without test (faster)
+    * Add ```-x test``` argument to build without tests (faster)
 
 To run the stack:
 
@@ -102,9 +102,9 @@ To run the stack:
 
 * Produce some Kafka or RabbitMQ value 
 
-* [http://localhost:8080/api/v1/reactive/kafka/messages](http://localhost:8080/api/v1/reactive/kafka/messages): endpoint that reuses Kafka list service using ```Mono``` 
+* [http://localhost:8080/api/v1/reactive/kafka/messages](http://localhost:8080/api/v1/reactive/kafka/messages): the endpoint that reuses Kafka list service using ```Mono``` 
 
-* [http://localhost:8080/api/v1/reactive/rabbit/messages](http://localhost:8080/api/v1/reactive/rabbit/messages): endpoint that reuses Rabbit list service using ```Flux```
+* [http://localhost:8080/api/v1/reactive/rabbit/messages](http://localhost:8080/api/v1/reactive/rabbit/messages): the endpoint that reuses Rabbit list service using ```Flux```
 
 ### Test Redis
 

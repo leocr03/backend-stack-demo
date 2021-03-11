@@ -57,14 +57,13 @@ public class RabbitServiceImpl implements RabbitService {
      */
     @Override
     @RabbitListener(queues = "#{configurationProperties.getRabbitQueue()}")
-    public @NotNull String consume(@NotNull String message) {
+    public void consume(@NotNull String message) {
         log.info(RABBIT_MQ_RECEIVED_MESSAGE, configurationProperties.getRabbitExchange(),
                 configurationProperties.getRabbitRoutingKey(), message);
         final Integer value = Integer.valueOf(message);
         final Message msg = new Message(value);
         repository.save(msg);
         log.info(RABBIT_MQ_MESSAGE_SAVED_ON_REDIS, message);
-        return message;
     }
 
     /**

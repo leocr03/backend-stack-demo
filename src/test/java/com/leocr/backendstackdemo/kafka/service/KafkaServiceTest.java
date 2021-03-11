@@ -53,9 +53,8 @@ class KafkaServiceTest {
     void consume() {
         final String message = "23";
 
-        final String result = service.consume(message);
+        service.consume(message);
 
-        assertEquals("23", result);
         verify(config).getKafkaTopicName();
         verify(config).getKafkaTopicGroupId();
         verify(redisMessageRepository).save(any(Message.class));

@@ -17,9 +17,8 @@ public interface BrokerService {
     /**
      * Lists values that were consumed from the broker.
      * @param message the consumed value.
-     * @return the value that was consumed.
      */
-    @NotNull String consume(@NotNull String message);
+    void consume(@NotNull String message);
 
     /**
      * Lists values that were consumed from the broker.
