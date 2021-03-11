@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.redis.repo;
 
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.redis.model.Message;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

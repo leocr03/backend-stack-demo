@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.kafka.service.impl;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.redis.model.Message;
 import com.leocr.backendstackdemo.kafka.service.KafkaService;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.kafka.service;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.redis.model.Message;
 import com.leocr.backendstackdemo.kafka.service.impl.KafkaServiceImpl;
 import com.leocr.backendstackdemo.redis.repo.RedisMessageRepository;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.rabbit.service;
 
 import com.leocr.backendstackdemo.common.conf.ConfigurationProperties;
-import com.leocr.backendstackdemo.common.model.Message;
+import com.leocr.backendstackdemo.mongo.model.Message;
 import com.leocr.backendstackdemo.mongo.repo.MongoMessageRepository;
 import com.leocr.backendstackdemo.rabbit.service.impl.RabbitServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

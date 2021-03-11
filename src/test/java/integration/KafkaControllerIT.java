@@ -30,8 +30,7 @@ public class KafkaControllerIT {
     @ClassRule
     public static DockerComposeContainer<?> environment =
             new DockerComposeContainer<>(new File("src/test/resources/docker-compose-integration.yaml"))
-                    .withExposedService("backend-stack-demo_1", 8080, Wait.forHttp("/").forStatusCode(200))
-                    .waitingFor("backend-stack-demo_1",
+                    .withExposedService("backend-stack-demo_1", 8080,
                             Wait.forHttp("/actuator/health").forStatusCode(200));
 
     @BeforeEach
@@ -47,7 +46,7 @@ public class KafkaControllerIT {
         sendMessage("2");
         sendMessage("3");
 
-        Thread.sleep(Duration.ofSeconds(1).toMillis());
+        Thread.sleep(Duration.ofSeconds(5).toMillis());
 
         final String uriList = "http://localhost:8080/api/v1/kafka/messages";
         final HttpUriRequest request = new HttpGet(uriList);
