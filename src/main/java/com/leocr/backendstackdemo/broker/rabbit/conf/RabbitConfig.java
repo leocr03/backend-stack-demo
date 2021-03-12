@@ -14,6 +14,7 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -74,7 +75,7 @@ public class RabbitConfig {
 
     @Bean
     @NotNull
-    MessageListenerAdapter listenerAdapter(@NotNull BrokerService brokerService) {
+    MessageListenerAdapter listenerAdapter(@NotNull @Qualifier("RabbitService") BrokerService brokerService) {
         return new MessageListenerAdapter(brokerService, "consume");
     }
 

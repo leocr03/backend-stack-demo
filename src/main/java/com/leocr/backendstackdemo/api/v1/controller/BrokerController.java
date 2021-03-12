@@ -2,11 +2,13 @@ package com.leocr.backendstackdemo.api.v1.controller;
 
 import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
 import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import org.hibernate.validator.constraints.Range;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 
 public interface BrokerController {
 
-    ResponseEntity<BrokerDto> produce(Integer value);
+    @NotNull ResponseEntity<BrokerDto> produce(@Range(min = 1, max = 99999) @NotNull Integer value);
 
-    ResponseEntity<BrokerPageDto> list();
+    @NotNull ResponseEntity<BrokerPageDto> list();
 }
