@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.controller.BrokerController;
 import com.leocr.backendstackdemo.api.v1.controller.KafkaController;
 import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
 import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class KafkaControllerTest {
 
-    private KafkaController controller;
+    private BrokerController controller;
 
     @Mock
     private BrokerService service;

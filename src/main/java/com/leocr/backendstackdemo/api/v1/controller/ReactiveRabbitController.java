@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Flux;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Validated
 @RestController
 @RequestMapping(value = "/api/v1/reactive/rabbit", produces = APPLICATION_JSON_VALUE)
 public class ReactiveRabbitController {
