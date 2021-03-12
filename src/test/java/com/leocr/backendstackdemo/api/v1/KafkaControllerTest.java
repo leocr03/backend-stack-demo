@@ -1,8 +1,9 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.KafkaDto;
-import com.leocr.backendstackdemo.api.v1.dto.KafkaPageDto;
-import com.leocr.backendstackdemo.kafka.service.KafkaService;
+import com.leocr.backendstackdemo.api.v1.controller.KafkaController;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import com.leocr.backendstackdemo.common.service.BrokerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,24 +29,24 @@ class KafkaControllerTest {
     private KafkaController controller;
 
     @Mock
-    private KafkaService kafkaService;
+    private BrokerService service;
 
     @BeforeEach
     void setUp() {
-        controller = new KafkaController(kafkaService);
+        controller = new KafkaController(service);
     }
 
     @Test
     void kafkaProduce() {
         final Integer value = 5;
-        when(kafkaService.produce(any())).thenReturn("5");
+        when(service.produce(any())).thenReturn("5");
 
-        final ResponseEntity<KafkaDto> response = controller.produce(value);
+        final ResponseEntity<BrokerDto> response = controller.produce(value);
 
-        verify(kafkaService).produce(eq(value));
-        final KafkaDto expected = new KafkaDto("5", "Value produced to Kafka: 5");
+        verify(service).produce(eq(value));
+        final BrokerDto expected = new BrokerDto("5", "Value produced to Kafka: 5");
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        final KafkaDto dto = response.getBody();
+        final BrokerDto dto = response.getBody();
         assertNotNull(dto);
         assertNotNull(dto.getValue());
         assertNotNull(dto.getMessage());
@@ -56,13 +57,13 @@ class KafkaControllerTest {
     @Test
     void kafkaList() {
         final Set<String> values = Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet());
-        when(kafkaService.list()).thenReturn(values);
+        when(service.list()).thenReturn(values);
 
-        final ResponseEntity<KafkaPageDto> result = controller.list();
+        final ResponseEntity<BrokerPageDto> result = controller.list();
 
-        final KafkaPageDto dto = new KafkaPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
-        final ResponseEntity<KafkaPageDto> expected = new ResponseEntity<>(dto, HttpStatus.OK);
+        final BrokerPageDto dto = new BrokerPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
+        final ResponseEntity<BrokerPageDto> expected = new ResponseEntity<>(dto, HttpStatus.OK);
         assertEquals(expected, result);
-        verify(kafkaService).list();
+        verify(service).list();
     }
 }

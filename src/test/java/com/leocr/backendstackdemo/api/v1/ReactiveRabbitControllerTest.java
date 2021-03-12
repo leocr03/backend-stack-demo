@@ -1,7 +1,8 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
-import com.leocr.backendstackdemo.rabbit.service.RabbitService;
+import com.leocr.backendstackdemo.api.v1.controller.ReactiveRabbitController;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import com.leocr.backendstackdemo.common.service.BrokerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,19 +22,19 @@ class ReactiveRabbitControllerTest {
     private ReactiveRabbitController controller;
 
     @Mock
-    private RabbitService rabbitService;
+    private BrokerService service;
 
     @BeforeEach
     void setUp() {
-        controller = new ReactiveRabbitController(rabbitService);
+        controller = new ReactiveRabbitController(service);
     }
 
     @Test
     void list() {
-        when(rabbitService.list()).thenReturn(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
-        final Flux<RabbitPageDto> list = controller.list();
+        when(service.list()).thenReturn(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
+        final Flux<BrokerPageDto> list = controller.list();
         StepVerifier.create(list)
-                .expectNext(new RabbitPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet())))
+                .expectNext(new BrokerPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet())))
                 .expectComplete()
                 .verify();
     }
