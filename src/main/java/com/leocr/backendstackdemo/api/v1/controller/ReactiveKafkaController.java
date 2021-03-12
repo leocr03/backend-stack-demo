@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Validated
 @RestController
 @RequestMapping(value = "/api/v1/reactive/kafka", produces = APPLICATION_JSON_VALUE)
-public class ReactiveKafkaController {
+public class ReactiveKafkaController implements ReactiveBrokerController {
 
     private final BrokerService service;
 

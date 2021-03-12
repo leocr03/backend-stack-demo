@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.controller.ReactiveBrokerController;
 import com.leocr.backendstackdemo.api.v1.controller.ReactiveKafkaController;
 import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
 import com.leocr.backendstackdemo.common.service.BrokerService;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ReactiveKafkaControllerTest {
 
-    private ReactiveKafkaController controller;
+    private ReactiveBrokerController controller;
 
     @Mock
     private BrokerService service;
@@ -34,7 +35,7 @@ class ReactiveKafkaControllerTest {
     void list() {
         final Set<String> values = Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet());
         when(service.list()).thenReturn(values);
-        final Mono<BrokerPageDto> list = controller.list();
+        final Mono<BrokerPageDto> list = (Mono<BrokerPageDto>) controller.list();
         StepVerifier.create(list)
                 .expectNext(new BrokerPageDto(Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet())))
                 .expectComplete()

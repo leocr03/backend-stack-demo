@@ -1,5 +1,6 @@
 package com.leocr.backendstackdemo.api.v1;
 
+import com.leocr.backendstackdemo.api.v1.controller.ReactiveBrokerController;
 import com.leocr.backendstackdemo.api.v1.controller.ReactiveRabbitController;
 import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
 import com.leocr.backendstackdemo.common.service.BrokerService;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ReactiveRabbitControllerTest {
 
-    private ReactiveRabbitController controller;
+    private ReactiveBrokerController controller;
 
     @Mock
     private BrokerService service;
@@ -32,7 +33,7 @@ class ReactiveRabbitControllerTest {
     @Test
     void list() {
         when(service.list()).thenReturn(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet()));
-        final Flux<BrokerPageDto> list = controller.list();
+        final Flux<BrokerPageDto> list = (Flux<BrokerPageDto>) controller.list();
         StepVerifier.create(list)
                 .expectNext(new BrokerPageDto(Arrays.stream(new String[]{"1", "2", "3", "4", "5"}).collect(toSet())))
                 .expectComplete()

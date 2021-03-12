@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Validated
 @RestController
 @RequestMapping(value = "/api/v1/reactive/rabbit", produces = APPLICATION_JSON_VALUE)
-public class ReactiveRabbitController {
+public class ReactiveRabbitController implements ReactiveBrokerController {
 
     private final BrokerService service;
 
@@ -30,6 +30,7 @@ public class ReactiveRabbitController {
         this.service = service;
     }
 
+    @Override
     @Operation(summary = "List the messages produced and consumed in RabbitMQ using Spring WebFlux.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by RabbitMQ using Spring WebFlux.",
