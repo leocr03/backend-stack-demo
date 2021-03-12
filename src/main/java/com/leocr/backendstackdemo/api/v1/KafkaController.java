@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.KafkaDto;
-import com.leocr.backendstackdemo.api.v1.dto.KafkaPageDto;
-import com.leocr.backendstackdemo.kafka.service.KafkaService;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import com.leocr.backendstackdemo.common.service.BrokerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,46 +28,48 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Validated
 @RestController
 @RequestMapping(value = "/api/v1/kafka", produces = APPLICATION_JSON_VALUE)
-public class KafkaController {
+public class KafkaController implements BrokerController {
 
     private static final String KAFKA_VALUE_WAS_PRODUCED_DTO = "Kafka value was produced. dto={}";
     public static final String VALUE_PRODUCED_TO_KAFKA = "Value produced to Kafka: %s";
 
-    private final KafkaService service;
+    private final BrokerService service;
 
     @Autowired
-    public KafkaController(KafkaService service) {
+    public KafkaController(@Qualifier("KafkaService") BrokerService service) {
         this.service = service;
     }
 
+    @Override
     @Operation(summary = "Produce value to Kafka.",
             parameters = {@Parameter(name = "value", example = "1",
                     description = "Integer number to be produced on Kafka.")})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value produced to Kafka.",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = KafkaDto.class))}),
+                            schema = @Schema(implementation = BrokerDto.class))}),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = @Content)
     })
     @GetMapping(value = "/message/{value}") // it Kept as GET in order to facilitate tests
-    public @NotNull ResponseEntity<KafkaDto> produce(
+    public @NotNull ResponseEntity<BrokerDto> produce(
             @PathVariable(name = "value") @Range(min = 1, max = 99999) @NotNull Integer value) {
         final String valueProduced = service.produce(value);
-        final KafkaDto dto = new KafkaDto(valueProduced, String.format(VALUE_PRODUCED_TO_KAFKA, value));
+        final BrokerDto dto = new BrokerDto(valueProduced, String.format(VALUE_PRODUCED_TO_KAFKA, value));
         log.info(KAFKA_VALUE_WAS_PRODUCED_DTO, dto);
         log.info("value={}", dto.getValue());
         log.info("message={}", dto.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Override
     @Operation(summary = "List the messages produced and consumed in Kafka.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Value that were produced and consumed by Kafka.",
                     content = {@Content(mediaType = APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = KafkaPageDto.class))})
+                            schema = @Schema(implementation = BrokerPageDto.class))})
     })
     @GetMapping(value = "/messages")
-    public @NotNull ResponseEntity<KafkaPageDto> list() {
-        return new ResponseEntity<>(new KafkaPageDto(service.list()), HttpStatus.OK);
+    public @NotNull ResponseEntity<BrokerPageDto> list() {
+        return new ResponseEntity<>(new BrokerPageDto(service.list()), HttpStatus.OK);
     }
 }

@@ -1,7 +1,7 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.KafkaPageDto;
-import com.leocr.backendstackdemo.kafka.service.KafkaService;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import com.leocr.backendstackdemo.common.service.BrokerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,20 +22,20 @@ class ReactiveKafkaControllerTest {
     private ReactiveKafkaController controller;
 
     @Mock
-    private KafkaService kafkaService;
+    private BrokerService service;
 
     @BeforeEach
     void setUp() {
-        controller = new ReactiveKafkaController(kafkaService);
+        controller = new ReactiveKafkaController(service);
     }
 
     @Test
     void list() {
         final Set<String> values = Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet());
-        when(kafkaService.list()).thenReturn(values);
-        final Mono<KafkaPageDto> list = controller.list();
+        when(service.list()).thenReturn(values);
+        final Mono<BrokerPageDto> list = controller.list();
         StepVerifier.create(list)
-                .expectNext(new KafkaPageDto(Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet())))
+                .expectNext(new BrokerPageDto(Arrays.stream(new String[]{"1", "2", "3"}).collect(toSet())))
                 .expectComplete()
                 .verify();
     }

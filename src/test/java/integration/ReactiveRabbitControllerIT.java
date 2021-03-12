@@ -1,8 +1,8 @@
 package integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leocr.backendstackdemo.api.v1.dto.RabbitDto;
-import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
@@ -59,10 +59,10 @@ public class ReactiveRabbitControllerIT {
 
         assertEquals(HttpStatus.SC_OK, listResponse.getStatusLine().getStatusCode());
         final ObjectMapper objectMapper = new ObjectMapper();
-        final RabbitPageDto[] dto =
-                objectMapper.readValue(listResponse.getEntity().getContent(), RabbitPageDto[].class);
-        final RabbitPageDto[] expected =
-                { new RabbitPageDto(Arrays.stream(new String[]{"10", "11", "12"}).collect(toSet())) };
+        final BrokerPageDto[] dto =
+                objectMapper.readValue(listResponse.getEntity().getContent(), BrokerPageDto[].class);
+        final BrokerPageDto[] expected =
+                { new BrokerPageDto(Arrays.stream(new String[]{"10", "11", "12"}).collect(toSet())) };
         assertNotNull(dto);
         assertEquals(1, dto.length);
         assertEquals(expected[0], dto[0]);
@@ -73,8 +73,8 @@ public class ReactiveRabbitControllerIT {
         final HttpUriRequest request = new HttpGet(uri);
         final HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
         final ObjectMapper objectMapper = new ObjectMapper();
-        final RabbitDto dto = objectMapper.readValue(httpResponse.getEntity().getContent(), RabbitDto.class);
-        final RabbitDto expected = new RabbitDto(value, "Value produced to RabbitMQ: " + value);
+        final BrokerDto dto = objectMapper.readValue(httpResponse.getEntity().getContent(), BrokerDto.class);
+        final BrokerDto expected = new BrokerDto(value, "Value produced to RabbitMQ: " + value);
         assertEquals(HttpStatus.SC_OK, httpResponse.getStatusLine().getStatusCode());
         assertEquals(expected, dto);
     }

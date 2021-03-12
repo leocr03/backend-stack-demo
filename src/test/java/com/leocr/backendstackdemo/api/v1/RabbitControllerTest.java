@@ -1,8 +1,8 @@
 package com.leocr.backendstackdemo.api.v1;
 
-import com.leocr.backendstackdemo.api.v1.dto.RabbitDto;
-import com.leocr.backendstackdemo.api.v1.dto.RabbitPageDto;
-import com.leocr.backendstackdemo.rabbit.service.RabbitService;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerPageDto;
+import com.leocr.backendstackdemo.common.service.BrokerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,27 +24,27 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RabbitControllerTest {
 
-    private RabbitController controller;
+    private BrokerController controller;
 
     @Mock
-    private RabbitService rabbitService;
+    private BrokerService service;
 
     @BeforeEach
     void setUp() {
-        controller = new RabbitController(rabbitService);
+        controller = new RabbitController(service);
     }
 
     @Test
     void produce() {
         final Integer value = 2;
-        when(rabbitService.produce(any())).thenReturn("5");
+        when(service.produce(any())).thenReturn("5");
 
-        final ResponseEntity<RabbitDto> response = controller.produce(value);
+        final ResponseEntity<BrokerDto> response = controller.produce(value);
 
-        verify(rabbitService).produce(eq(value));
-        final RabbitDto expected = new RabbitDto("5", "Value produced to RabbitMQ: 2");
+        verify(service).produce(eq(value));
+        final BrokerDto expected = new BrokerDto("5", "Value produced to RabbitMQ: 2");
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        final RabbitDto dto = response.getBody();
+        final BrokerDto dto = response.getBody();
         assertNotNull(dto);
         assertNotNull(dto.getValue());
         assertNotNull(dto.getMessage());
@@ -54,13 +54,13 @@ class RabbitControllerTest {
 
     @Test
     void list() {
-        when(rabbitService.list()).thenReturn(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
+        when(service.list()).thenReturn(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
 
-        final ResponseEntity<RabbitPageDto> response = controller.list();
+        final ResponseEntity<BrokerPageDto> response = controller.list();
 
-        verify(rabbitService).list();
-        final RabbitPageDto dto = new RabbitPageDto(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
-        final ResponseEntity<RabbitPageDto> expected = new ResponseEntity<>(
+        verify(service).list();
+        final BrokerPageDto dto = new BrokerPageDto(Arrays.stream(new String[]{"someResult"}).collect(toSet()));
+        final ResponseEntity<BrokerPageDto> expected = new ResponseEntity<>(
                 dto, HttpStatus.OK);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expected.getBody(), response.getBody());

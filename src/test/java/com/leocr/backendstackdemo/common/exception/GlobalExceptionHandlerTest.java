@@ -1,6 +1,6 @@
 package com.leocr.backendstackdemo.common.exception;
 
-import com.leocr.backendstackdemo.api.v1.dto.KafkaDto;
+import com.leocr.backendstackdemo.api.v1.dto.BrokerDto;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +47,7 @@ class GlobalExceptionHandlerTest {
     void handleConstraintViolationException() {
         final GlobalExceptionHandler handler = new GlobalExceptionHandler();
         final ConstraintViolationException ex = mock(ConstraintViolationException.class);
-        final KafkaDto dto = new KafkaDto("someValue", "someMessage");
+        final BrokerDto dto = new BrokerDto("someValue", "someMessage");
         final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         final Validator validator = factory.getValidator();
         final Set<ConstraintViolation<?>> constraintViolations = Collections.unmodifiableSet(validator.validate(dto));
@@ -56,7 +56,7 @@ class GlobalExceptionHandlerTest {
         final ResponseEntity<Object> entity = handler.handleConstraintViolationException(ex);
 
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, null, null, Collections.singletonList(
-                "com.leocr.backendstackdemo.api.v1.dto.KafkaDto value: The value must have equal or less than " +
+                "com.leocr.backendstackdemo.api.v1.dto.BrokerDto value: The value must have equal or less than " +
                         "5 digits"));
         apiError.setTimestamp(((ApiError) Objects.requireNonNull(entity.getBody())).getTimestamp());
         apiError.setType(((ApiError) Objects.requireNonNull(entity.getBody())).getType());
