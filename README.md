@@ -13,13 +13,13 @@ So far, we have these items:
 * *[Docker-Compose](https://docs.docker.com/compose/)*
     * [docker-compose.yaml](https://github.com/leocr03/backend-stack-demo/blob/main/src/main/resources/docker-compose.yaml) contains an example of docker-compose with all the applications needed.
 * *Kafka ([Kafka](https://kafka.apache.org/documentation/) + [ZooKeeper](https://zookeeper.apache.org/) + [KafkaDrop](https://github.com/obsidiandynamics/kafdrop))*
-    * It has been created:
+    * Was created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
     * *KafkaDrop* to see the message queue
 * *RabbitMQ ([RabbitMQ](https://www.rabbitmq.com/tutorials/tutorial-one-java.html) + [RabbitMQ Management](https://www.rabbitmq.com/management.html))*
-    * It has been created:
+    * Was created:
         * an endpoint to produce some value
         * a simple persistence in *Redis* to save the consumed values
         * an endpoint to list those values that were consumed and persisted
