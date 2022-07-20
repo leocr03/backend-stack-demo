@@ -1,6 +1,6 @@
 # Backend Stack Demo
 
-This project provides examples of using the main Java technology stack needed by back-end engineers today.
+This project provides examples of using the main Java technology stack needed by backend engineers today.
 
 So far, we have these items:
 
